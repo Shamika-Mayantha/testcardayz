@@ -4,21 +4,34 @@ import { useMemo, useState, type ReactNode } from "react";
 import { fleet } from "@/data/fleet";
 import { business, telHref } from "@/data/business";
 
+function isDate(value: string) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(value.trim());
+}
+
 export function BookingSearch() {
   const [pickup, setPickup] = useState("");
   const [ret, setRet] = useState("");
   const [vehicle, setVehicle] = useState("any");
   const [passengers, setPassengers] = useState("1-4");
   const [status, setStatus] = useState<"idle" | "error" | "ok">("idle");
+  const [message, setMessage] = useState(
+    "We’ll confirm availability directly — no automated booking lock."
+  );
 
   const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
 
   function checkAvailability() {
-    if (!pickup || !ret || ret < pickup) {
+    const start = pickup.trim();
+    const end = ret.trim();
+    if (!isDate(start) || !isDate(end) || end < start) {
       setStatus("error");
+      setMessage(
+        "Choose a pickup and return date. Return must be on or after pickup. Use YYYY-MM-DD."
+      );
       return;
     }
     setStatus("ok");
+    setMessage("");
   }
 
   return (
@@ -45,8 +58,10 @@ export function BookingSearch() {
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
           <Field label="PICKUP DATE">
             <input
-              type="date"
-              min={today}
+              type="text"
+              inputMode="numeric"
+              autoComplete="off"
+              placeholder={today}
               value={pickup}
               onChange={(e) => {
                 setPickup(e.target.value);
@@ -57,8 +72,10 @@ export function BookingSearch() {
           </Field>
           <Field label="RETURN DATE">
             <input
-              type="date"
-              min={pickup || today}
+              type="text"
+              inputMode="numeric"
+              autoComplete="off"
+              placeholder={today}
               value={ret}
               onChange={(e) => {
                 setRet(e.target.value);
@@ -104,13 +121,12 @@ export function BookingSearch() {
           </div>
         </div>
 
-        <div className="mt-4 min-h-12" aria-live="polite">
+        <div className="mt-4" aria-live="polite">
           {status === "error" ? (
-            <p className="font-mono text-[11px] tracking-[0.12em] text-red-300" role="alert">
-              Choose a pickup and return date. Return must be on or after pickup.
+            <p className="font-mono text-sm tracking-[0.08em] text-red-300" role="alert">
+              {message}
             </p>
           ) : null}
-
           {status === "ok" ? (
             <div className="border border-cyan/25 bg-black/40 p-4">
               <p className="font-mono text-[10px] tracking-[0.24em] text-cyan">
@@ -134,9 +150,7 @@ export function BookingSearch() {
               </p>
             </div>
           ) : status === "idle" ? (
-            <p className="font-mono text-[10px] tracking-[0.16em] text-mute">
-              We’ll confirm availability directly — no automated booking lock.
-            </p>
+            <p className="font-mono text-[10px] tracking-[0.16em] text-mute">{message}</p>
           ) : null}
         </div>
       </div>

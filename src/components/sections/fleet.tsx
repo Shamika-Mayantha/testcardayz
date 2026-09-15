@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   fleet as fleetData,
   fleetFilters,
@@ -12,36 +12,19 @@ import {
 export function Fleet() {
   const [filter, setFilter] = useState("all");
   const [active, setActive] = useState<Vehicle | null>(null);
-  const reduced = useReducedMotion();
-  const pinRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
 
   const items =
     filter === "all"
       ? fleetData
       : fleetData.filter((v) => v.category === filter);
 
-  useEffect(() => {
-    const pin = pinRef.current;
-    const track = trackRef.current;
-    if (!pin || !track || reduced) return;
-    if (window.matchMedia("(max-width: 1023px)").matches) return;
+  const openVehicle = useCallback((vehicle: Vehicle) => {
+    setActive(vehicle);
+  }, []);
 
-    const onScroll = () => {
-      const rect = pin.getBoundingClientRect();
-      const max = pin.offsetHeight - window.innerHeight;
-      const progress = Math.min(1, Math.max(0, -rect.top / max));
-      const maxX = Math.max(0, track.scrollWidth - window.innerWidth + 80);
-      track.style.transform = `translate3d(${-progress * maxX}px,0,0)`;
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [items, reduced]);
+  const closeVehicle = useCallback(() => {
+    setActive(null);
+  }, []);
 
   return (
     <section id="fleet" className="relative mt-24 scroll-mt-24 lg:mt-32">
@@ -77,42 +60,15 @@ export function Fleet() {
         </div>
       </div>
 
-      <div className="mt-10 flex gap-4 overflow-x-auto px-4 pb-6 snap-x snap-mandatory lg:hidden">
-        <AnimatePresence mode="popLayout">
-          {items.map((v) => (
-            <motion.div
-              layout
-              key={v.id}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="w-[82vw] max-w-[380px] shrink-0 snap-center"
-            >
-              <VehicleCard vehicle={v} onOpen={() => setActive(v)} compact />
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
-
-      <div
-        ref={pinRef}
-        className="relative mt-8 hidden lg:block"
-        style={{ height: `${Math.max(items.length * 42, 180)}vh` }}
-      >
-        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-          <div ref={trackRef} className="flex gap-8 px-16 will-change-transform">
-            {items.map((v) => (
-              <div key={v.id} className="w-[min(720px,68vw)] shrink-0">
-                <VehicleCard vehicle={v} onOpen={() => setActive(v)} />
-              </div>
-            ))}
+      <div className="mt-10 flex gap-4 overflow-x-auto px-4 pb-8 snap-x snap-mandatory">
+        {items.map((v) => (
+          <div key={v.id} className="w-[min(420px,82vw)] shrink-0 snap-center lg:w-[min(560px,70vw)]">
+            <VehicleCard vehicle={v} onOpen={() => openVehicle(v)} />
           </div>
-        </div>
+        ))}
       </div>
 
-      {active ? (
-        <VehicleModal vehicle={active} onClose={() => setActive(null)} />
-      ) : null}
+      <VehicleModal vehicle={active} onClose={closeVehicle} />
     </section>
   );
 }
@@ -120,48 +76,49 @@ export function Fleet() {
 function VehicleCard({
   vehicle,
   onOpen,
-  compact,
 }: {
   vehicle: Vehicle;
   onOpen: () => void;
-  compact?: boolean;
 }) {
   return (
-    <article className="group relative overflow-hidden border border-white/10 bg-[#0a0a0a] transition hover:border-cyan/40 hover:shadow-[0_0_40px_rgba(158,231,255,0.08)]">
-      <div className={`relative overflow-hidden ${compact ? "h-52" : "h-[52vh] min-h-[360px]"}`}>
-        <Image
-          src={vehicle.image}
-          alt={vehicle.alt}
-          fill
-          sizes="(max-width: 1024px) 82vw, 68vw"
-          className="object-cover grayscale-[0.35] transition duration-700 group-hover:scale-105 group-hover:grayscale-0"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-        <p className="absolute left-4 top-4 font-mono text-[11px] tracking-[0.28em] text-white/80">
-          {vehicle.code}
-        </p>
-      </div>
-      <div className="space-y-3 p-5 sm:p-6">
-        <p className="font-mono text-[10px] tracking-[0.22em] text-cyan">
-          {vehicle.fuel.toUpperCase()} / {vehicle.categoryLabel.toUpperCase()}
-        </p>
-        <h3 className="font-[family-name:var(--font-oswald)] text-3xl tracking-wide text-white sm:text-4xl">
-          {vehicle.name}
-        </h3>
-        <div className="flex flex-wrap gap-x-5 gap-y-1 font-mono text-[10px] tracking-[0.16em] text-mute">
-          <span>{vehicle.seats} SEATS</span>
-          <span>{vehicle.transmission.toUpperCase()}</span>
-          <span>{vehicle.fuel.toUpperCase()}</span>
+    <article className="overflow-hidden border border-white/10 bg-[#0a0a0a] transition hover:border-cyan/40 hover:shadow-[0_0_40px_rgba(158,231,255,0.08)]">
+      <button
+        type="button"
+        data-cursor="VIEW"
+        onClick={onOpen}
+        className="block w-full text-left"
+        aria-label={`View ${vehicle.name}`}
+      >
+        <div className="relative h-56 overflow-hidden sm:h-72 lg:h-[28rem]">
+          <Image
+            src={vehicle.image}
+            alt={vehicle.alt}
+            fill
+            sizes="(max-width: 1024px) 82vw, 70vw"
+            className="object-cover grayscale-[0.35] transition duration-700 hover:scale-105 hover:grayscale-0"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+          <p className="absolute left-4 top-4 font-mono text-[11px] tracking-[0.28em] text-white/80">
+            {vehicle.code}
+          </p>
         </div>
-        <button
-          type="button"
-          data-cursor="VIEW"
-          onClick={onOpen}
-          className="relative z-20 inline-flex border border-cyan/40 px-4 py-2 font-mono text-[11px] tracking-[0.22em] text-white hover:border-cyan hover:text-cyan"
-        >
-          REQUEST PRICE →
-        </button>
-      </div>
+        <div className="space-y-3 p-5 sm:p-6">
+          <p className="font-mono text-[10px] tracking-[0.22em] text-cyan">
+            {vehicle.fuel.toUpperCase()} / {vehicle.categoryLabel.toUpperCase()}
+          </p>
+          <h3 className="font-[family-name:var(--font-oswald)] text-3xl tracking-wide text-white sm:text-4xl">
+            {vehicle.name}
+          </h3>
+          <div className="flex flex-wrap gap-x-5 gap-y-1 font-mono text-[10px] tracking-[0.16em] text-mute">
+            <span>{vehicle.seats} SEATS</span>
+            <span>{vehicle.transmission.toUpperCase()}</span>
+            <span>{vehicle.fuel.toUpperCase()}</span>
+          </div>
+          <span className="inline-flex border border-cyan/40 px-4 py-2 font-mono text-[11px] tracking-[0.22em] text-white">
+            REQUEST PRICE →
+          </span>
+        </div>
+      </button>
     </article>
   );
 }
@@ -170,32 +127,34 @@ function VehicleModal({
   vehicle,
   onClose,
 }: {
-  vehicle: Vehicle;
+  vehicle: Vehicle | null;
   onClose: () => void;
 }) {
-  const ref = useRef<HTMLDialogElement>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (!el.open) el.showModal();
-    const onCancel = (event: Event) => {
-      event.preventDefault();
-      onClose();
-    };
-    el.addEventListener("cancel", onCancel);
-    return () => {
-      el.removeEventListener("cancel", onCancel);
-      if (el.open) el.close();
-    };
-  }, [onClose]);
+    const t = window.setTimeout(() => setMounted(true), 0);
+    return () => window.clearTimeout(t);
+  }, []);
 
-  return (
-    <dialog
-      ref={ref}
-      className="vehicle-modal m-0 h-full max-h-none w-full max-w-none border-0 bg-black p-0 text-white"
-      aria-labelledby="vehicle-title"
-    >
+  useEffect(() => {
+    if (!vehicle) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [vehicle, onClose]);
+
+  if (!mounted || !vehicle) return null;
+
+  return createPortal(
+    <div className="fixed inset-0 z-[200] bg-black text-white" role="dialog" aria-modal="true">
       <button
         type="button"
         onClick={onClose}
@@ -217,10 +176,7 @@ function VehicleModal({
         </div>
         <div className="relative flex flex-col justify-center px-6 py-10 sm:px-12">
           <p className="font-mono text-[11px] tracking-[0.28em] text-cyan">{vehicle.code}</p>
-          <h2
-            id="vehicle-title"
-            className="mt-3 font-[family-name:var(--font-oswald)] text-5xl tracking-wide text-white sm:text-6xl"
-          >
+          <h2 className="mt-3 font-[family-name:var(--font-oswald)] text-5xl tracking-wide text-white sm:text-6xl">
             {vehicle.name}
           </h2>
           <p className="mt-3 font-mono text-[11px] tracking-[0.2em] text-mute">
@@ -245,11 +201,6 @@ function VehicleModal({
             </div>
           </dl>
           <p className="mt-6 max-w-md text-sm leading-relaxed text-mute">{vehicle.blurb}</p>
-          <ul className="mt-4 space-y-1 font-mono text-[10px] tracking-[0.16em] text-white/70">
-            {vehicle.highlights.map((h) => (
-              <li key={h}>— {h}</li>
-            ))}
-          </ul>
           <a
             href="#book"
             data-cursor="BOOK"
@@ -260,6 +211,7 @@ function VehicleModal({
           </a>
         </div>
       </div>
-    </dialog>
+    </div>,
+    document.body
   );
 }
