@@ -88,8 +88,12 @@ export function DatePicker({
 
   useEffect(() => {
     if (!open) return;
-    setView(selected ?? minDate ?? new Date());
-  }, [open, selected, minDate]);
+    setView(
+      (value ? parseIso(value) : null) ??
+        (min ? parseIso(min) : null) ??
+        new Date()
+    );
+  }, [open, value, min]);
 
   useEffect(() => {
     if (!open) return;
@@ -161,7 +165,13 @@ export function DatePicker({
               type="button"
               aria-label="Previous month"
               onClick={() =>
-                setView(new Date(view.getFullYear(), view.getMonth() - 1, 1))
+                setView((current) => {
+                  const prev = new Date(current.getFullYear(), current.getMonth() - 1, 1);
+                  if (minDate && prev < new Date(minDate.getFullYear(), minDate.getMonth(), 1)) {
+                    return current;
+                  }
+                  return prev;
+                })
               }
               className="flex size-8 items-center justify-center border border-white/10 text-white hover:border-[#e10600] hover:text-[#e10600]"
             >
@@ -174,7 +184,10 @@ export function DatePicker({
               type="button"
               aria-label="Next month"
               onClick={() =>
-                setView(new Date(view.getFullYear(), view.getMonth() + 1, 1))
+                setView(
+                  (current) =>
+                    new Date(current.getFullYear(), current.getMonth() + 1, 1)
+                )
               }
               className="flex size-8 items-center justify-center border border-white/10 text-white hover:border-[#e10600] hover:text-[#e10600]"
             >

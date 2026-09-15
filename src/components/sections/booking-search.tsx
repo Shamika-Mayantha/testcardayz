@@ -22,7 +22,13 @@ export function BookingSearch() {
     "We’ll confirm availability on WhatsApp — no automated booking lock."
   );
   const [waLink, setWaLink] = useState<string | null>(null);
-  const todayIso = useMemo(() => new Date().toISOString().slice(0, 10), []);
+  const todayIso = useMemo(() => {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, "0");
+    const d = String(now.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }, []);
 
   function checkAvailability() {
     const start = pickup.trim();
