@@ -31,6 +31,22 @@ export function Footer() {
           >
             WHATSAPP
           </a>
+          <a
+            href={business.instagram}
+            target="_blank"
+            rel="noreferrer"
+            className="label-tech hover:text-[#e10600]"
+          >
+            INSTAGRAM
+          </a>
+          <a
+            href={business.facebook}
+            target="_blank"
+            rel="noreferrer"
+            className="label-tech hover:text-[#e10600]"
+          >
+            FACEBOOK
+          </a>
           <a href="#contact" className="label-tech hover:text-[#e10600]">
             CONTACT
           </a>

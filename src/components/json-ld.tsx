@@ -28,7 +28,7 @@ export function JsonLd() {
       ratingValue: business.rating,
       reviewCount: business.reviews,
     },
-    sameAs: [business.facebook, business.reviewsUrl],
+    sameAs: [business.facebook, business.instagram, business.reviewsUrl],
   };
 
   return (

@@ -10,15 +10,26 @@ export function Social() {
             FOLLOW THE JOURNEY
           </h2>
         </div>
-        <a
-          href={business.facebook}
-          target="_blank"
-          rel="noreferrer"
-          data-cursor="OPEN"
-          className="border border-white/20 px-8 py-4 font-mono text-[11px] tracking-[0.24em] text-white hover:border-cyan hover:text-cyan"
-        >
-          FACEBOOK →
-        </a>
+        <div className="flex flex-wrap gap-3">
+          <a
+            href={business.instagram}
+            target="_blank"
+            rel="noreferrer"
+            data-cursor="OPEN"
+            className="border border-white/20 px-8 py-4 font-mono text-[11px] tracking-[0.24em] text-white hover:border-cyan hover:text-cyan"
+          >
+            INSTAGRAM →
+          </a>
+          <a
+            href={business.facebook}
+            target="_blank"
+            rel="noreferrer"
+            data-cursor="OPEN"
+            className="border border-white/20 px-8 py-4 font-mono text-[11px] tracking-[0.24em] text-white hover:border-cyan hover:text-cyan"
+          >
+            FACEBOOK →
+          </a>
+        </div>
       </div>
     </section>
   );

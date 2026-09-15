@@ -17,6 +17,7 @@ export const business = {
   hoursNote: "DAILY",
   facebook:
     "https://www.facebook.com/p/CAR-DAYZ-LK-61578866334003/",
+  instagram: "https://www.instagram.com/cardayzlk/",
   whatsapp: "https://wa.me/94717708164",
   reviewsUrl:
     "https://www.google.com/search?q=CAR+DAYZ+LANKA+Reviews&si=APenkKm7iecQ4G6P-TsbSMFKIQtv3EFIqRAFw-i8uEbk55Z-_wiKammmCWz6xnttHzIrLAAAVsoKY7Sei4lNT72ZnNAkTEkR6_yh59fChWsU3t2jT3MypzHExQZgqfcERTRQQaWf5THp&hl=en",
