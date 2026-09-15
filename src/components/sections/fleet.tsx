@@ -171,9 +171,13 @@ function VehicleModal({
 
   if (!mounted || !vehicle) return null;
 
+  const requestHref = whatsappHref(
+    vehicleWhatsappText(vehicle.name, vehicle.year)
+  );
+
   return createPortal(
     <div
-      className="fixed inset-0 z-[200] bg-black text-white"
+      className="fixed inset-0 z-[200] flex h-[100dvh] flex-col overflow-hidden bg-black text-white"
       role="dialog"
       aria-modal="true"
       data-cursor="VIEW"
@@ -181,12 +185,15 @@ function VehicleModal({
       <button
         type="button"
         onClick={onClose}
-        className="absolute right-5 top-5 z-10 font-mono text-[11px] tracking-[0.24em] text-white/80 hover:text-cyan"
+        className="absolute right-4 top-4 z-30 border border-white/15 bg-black/70 px-3 py-2 font-mono text-[11px] tracking-[0.24em] text-white/90 hover:text-cyan"
       >
         CLOSE
       </button>
-      <div className="grid min-h-[100svh] lg:grid-cols-[1.2fr_0.8fr]">
-        <div className="relative min-h-[42vh]">
+      <div
+        data-lenis-prevent
+        className="min-h-0 flex-1 overflow-y-auto overscroll-contain lg:grid lg:grid-cols-[1.2fr_0.8fr] lg:overflow-hidden"
+      >
+        <div className="relative h-[38svh] shrink-0 sm:h-[42svh] lg:h-full lg:min-h-0">
           <VehicleSlideshow
             images={vehicle.images}
             alt={vehicle.alt}
@@ -197,11 +204,11 @@ function VehicleModal({
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/10 to-black/70" />
         </div>
-        <div className="relative flex flex-col justify-center px-6 py-10 sm:px-12">
+        <div className="relative px-5 pb-8 pt-6 sm:px-8 lg:flex lg:h-full lg:flex-col lg:justify-center lg:px-12 lg:pb-10 lg:pt-10">
           <p className="font-mono text-[11px] tracking-[0.28em] text-cyan">
             {vehicle.code} / {vehicle.year}
           </p>
-          <h2 className="mt-3 font-[family-name:var(--font-oswald)] text-5xl tracking-wide text-white sm:text-6xl">
+          <h2 className="mt-3 font-[family-name:var(--font-oswald)] text-4xl tracking-wide text-white sm:text-6xl">
             {vehicle.name}
           </h2>
           <p className="mt-3 font-mono text-[11px] tracking-[0.2em] text-mute">
@@ -227,16 +234,28 @@ function VehicleModal({
           </dl>
           <p className="mt-6 max-w-md text-sm leading-relaxed text-mute">{vehicle.blurb}</p>
           <a
-            href={whatsappHref(vehicleWhatsappText(vehicle.name, vehicle.year))}
+            href={requestHref}
             target="_blank"
             rel="noreferrer"
             data-cursor="BOOK"
             onClick={onClose}
-            className="mt-10 inline-flex w-fit border border-cyan bg-cyan px-8 py-4 font-mono text-[11px] tracking-[0.24em] text-white hover:bg-transparent hover:text-cyan"
+            className="mt-10 hidden w-fit border border-cyan bg-cyan px-8 py-4 font-mono text-[11px] tracking-[0.24em] text-white hover:bg-transparent hover:text-cyan lg:inline-flex"
           >
             REQUEST ON WHATSAPP →
           </a>
         </div>
+      </div>
+      <div className="shrink-0 border-t border-white/10 bg-black p-4 pb-[max(1rem,env(safe-area-inset-bottom))] lg:hidden">
+        <a
+          href={requestHref}
+          target="_blank"
+          rel="noreferrer"
+          data-cursor="BOOK"
+          onClick={onClose}
+          className="flex h-12 w-full items-center justify-center bg-cyan font-mono text-[11px] tracking-[0.22em] text-white"
+        >
+          REQUEST ON WHATSAPP →
+        </a>
       </div>
     </div>,
     document.documentElement
