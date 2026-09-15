@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
@@ -13,15 +12,9 @@ import {
 export function Fleet() {
   const [filter, setFilter] = useState("all");
   const [active, setActive] = useState<Vehicle | null>(null);
-  const [canPortal, setCanPortal] = useState(false);
   const reduced = useReducedMotion();
   const pinRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const t = window.setTimeout(() => setCanPortal(true), 0);
-    return () => window.clearTimeout(t);
-  }, []);
 
   const items =
     filter === "all"
@@ -50,19 +43,6 @@ export function Fleet() {
     };
   }, [items, reduced]);
 
-  useEffect(() => {
-    if (!active) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setActive(null);
-    };
-    window.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [active]);
-
   return (
     <section id="fleet" className="relative mt-24 scroll-mt-24 lg:mt-32">
       <div className="mx-auto w-[min(1180px,calc(100%-2rem))]">
@@ -84,11 +64,7 @@ export function Fleet() {
               type="button"
               role="tab"
               aria-selected={filter === f.id}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setFilter(f.id);
-              }}
+              onClick={() => setFilter(f.id)}
               className={`border px-3 py-2 font-mono text-[10px] tracking-[0.2em] transition ${
                 filter === f.id
                   ? "border-cyan bg-cyan text-black"
@@ -134,16 +110,9 @@ export function Fleet() {
         </div>
       </div>
 
-      {canPortal
-        ? createPortal(
-            <AnimatePresence>
-              {active ? (
-                <VehicleModal vehicle={active} onClose={() => setActive(null)} />
-              ) : null}
-            </AnimatePresence>,
-            document.body
-          )
-        : null}
+      {active ? (
+        <VehicleModal vehicle={active} onClose={() => setActive(null)} />
+      ) : null}
     </section>
   );
 }
@@ -158,14 +127,7 @@ function VehicleCard({
   compact?: boolean;
 }) {
   return (
-    <article className="group relative overflow-hidden border border-white/10 bg-[#0a0a0a] outline-none transition hover:border-cyan/40 hover:shadow-[0_0_40px_rgba(158,231,255,0.08)] focus-within:border-cyan">
-      <button
-        type="button"
-        data-cursor="VIEW"
-        onClick={onOpen}
-        aria-label={`View ${vehicle.name}`}
-        className="absolute inset-0 z-10"
-      />
+    <article className="group relative overflow-hidden border border-white/10 bg-[#0a0a0a] transition hover:border-cyan/40 hover:shadow-[0_0_40px_rgba(158,231,255,0.08)]">
       <div className={`relative overflow-hidden ${compact ? "h-52" : "h-[52vh] min-h-[360px]"}`}>
         <Image
           src={vehicle.image}
@@ -179,7 +141,7 @@ function VehicleCard({
           {vehicle.code}
         </p>
       </div>
-      <div className="relative space-y-3 p-5 sm:p-6">
+      <div className="space-y-3 p-5 sm:p-6">
         <p className="font-mono text-[10px] tracking-[0.22em] text-cyan">
           {vehicle.fuel.toUpperCase()} / {vehicle.categoryLabel.toUpperCase()}
         </p>
@@ -191,9 +153,14 @@ function VehicleCard({
           <span>{vehicle.transmission.toUpperCase()}</span>
           <span>{vehicle.fuel.toUpperCase()}</span>
         </div>
-        <p className="font-mono text-[11px] tracking-[0.22em] text-white group-hover:text-cyan">
+        <button
+          type="button"
+          data-cursor="VIEW"
+          onClick={onOpen}
+          className="relative z-20 inline-flex border border-cyan/40 px-4 py-2 font-mono text-[11px] tracking-[0.22em] text-white hover:border-cyan hover:text-cyan"
+        >
           REQUEST PRICE →
-        </p>
+        </button>
       </div>
     </article>
   );
@@ -206,14 +173,27 @@ function VehicleModal({
   vehicle: Vehicle;
   onClose: () => void;
 }) {
+  const ref = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (!el.open) el.showModal();
+    const onCancel = (event: Event) => {
+      event.preventDefault();
+      onClose();
+    };
+    el.addEventListener("cancel", onCancel);
+    return () => {
+      el.removeEventListener("cancel", onCancel);
+      if (el.open) el.close();
+    };
+  }, [onClose]);
+
   return (
-    <motion.div
-      className="fixed inset-0 z-[90] bg-black"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      role="dialog"
-      aria-modal="true"
+    <dialog
+      ref={ref}
+      className="vehicle-modal m-0 h-full max-h-none w-full max-w-none border-0 bg-black p-0 text-white"
       aria-labelledby="vehicle-title"
     >
       <button
@@ -223,7 +203,7 @@ function VehicleModal({
       >
         CLOSE
       </button>
-      <div className="grid h-full lg:grid-cols-[1.2fr_0.8fr]">
+      <div className="grid min-h-[100svh] lg:grid-cols-[1.2fr_0.8fr]">
         <div className="relative min-h-[42vh]">
           <Image
             src={vehicle.image}
@@ -235,7 +215,7 @@ function VehicleModal({
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-black/80" />
         </div>
-        <div className="flex flex-col justify-center px-6 py-10 sm:px-12">
+        <div className="relative flex flex-col justify-center px-6 py-10 sm:px-12">
           <p className="font-mono text-[11px] tracking-[0.28em] text-cyan">{vehicle.code}</p>
           <h2
             id="vehicle-title"
@@ -280,6 +260,6 @@ function VehicleModal({
           </a>
         </div>
       </div>
-    </motion.div>
+    </dialog>
   );
 }

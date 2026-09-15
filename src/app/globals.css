@@ -277,3 +277,12 @@
     display: none;
   }
 }
+
+.vehicle-modal {
+  position: fixed;
+  inset: 0;
+}
+
+.vehicle-modal::backdrop {
+  background: #000;
+}

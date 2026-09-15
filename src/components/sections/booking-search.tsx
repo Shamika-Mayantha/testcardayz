@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type FormEvent, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { fleet } from "@/data/fleet";
 import { business, telHref } from "@/data/business";
 
@@ -13,14 +13,8 @@ export function BookingSearch() {
 
   const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
 
-  function submit(e: FormEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!pickup || !ret) {
-      setStatus("error");
-      return;
-    }
-    if (ret < pickup) {
+  function checkAvailability() {
+    if (!pickup || !ret || ret < pickup) {
       setStatus("error");
       return;
     }
@@ -32,12 +26,7 @@ export function BookingSearch() {
       id="book"
       className="relative z-20 mx-auto -mt-16 w-[min(1180px,calc(100%-1.5rem))] scroll-mt-28 sm:-mt-20"
     >
-      <form
-        onSubmit={submit}
-        noValidate
-        action="#book"
-        className="glass relative overflow-hidden rounded-sm border border-cyan/20 p-4 shadow-[0_30px_80px_rgba(0,0,0,0.55)] sm:p-6"
-      >
+      <div className="glass relative overflow-hidden rounded-sm border border-cyan/20 p-4 shadow-[0_30px_80px_rgba(0,0,0,0.55)] sm:p-6">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan/70 to-transparent" />
         <div className="mb-4 flex items-end justify-between gap-4">
           <div>
@@ -57,7 +46,6 @@ export function BookingSearch() {
           <Field label="PICKUP DATE">
             <input
               type="date"
-              name="pickup"
               min={today}
               value={pickup}
               onChange={(e) => {
@@ -70,7 +58,6 @@ export function BookingSearch() {
           <Field label="RETURN DATE">
             <input
               type="date"
-              name="return"
               min={pickup || today}
               value={ret}
               onChange={(e) => {
@@ -82,7 +69,6 @@ export function BookingSearch() {
           </Field>
           <Field label="SELECT VEHICLE">
             <select
-              name="vehicle"
               value={vehicle}
               onChange={(e) => setVehicle(e.target.value)}
               className="hud-input"
@@ -97,7 +83,6 @@ export function BookingSearch() {
           </Field>
           <Field label="NUMBER OF PASSENGERS">
             <select
-              name="passengers"
               value={passengers}
               onChange={(e) => setPassengers(e.target.value)}
               className="hud-input"
@@ -109,8 +94,9 @@ export function BookingSearch() {
           </Field>
           <div className="flex items-end">
             <button
-              type="submit"
+              type="button"
               data-cursor="OPEN"
+              onClick={checkAvailability}
               className="w-full border border-cyan bg-cyan py-3.5 font-mono text-[11px] tracking-[0.22em] text-black transition hover:bg-transparent hover:text-cyan"
             >
               CHECK AVAILABILITY →
@@ -118,7 +104,7 @@ export function BookingSearch() {
           </div>
         </div>
 
-        <div className="mt-4" aria-live="polite">
+        <div className="mt-4 min-h-12" aria-live="polite">
           {status === "error" ? (
             <p className="font-mono text-[11px] tracking-[0.12em] text-red-300" role="alert">
               Choose a pickup and return date. Return must be on or after pickup.
@@ -153,7 +139,7 @@ export function BookingSearch() {
             </p>
           ) : null}
         </div>
-      </form>
+      </div>
     </section>
   );
 }
