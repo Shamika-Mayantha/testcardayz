@@ -59,7 +59,7 @@ export function Hero() {
       <div className="relative mx-auto grid w-full max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8">
         <div>
           <motion.p
-            initial={{ opacity: 0, y: 12 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-black/40 px-3 py-1 font-mono text-[10px] tracking-[0.32em] text-cyan-200 backdrop-blur-md"
           >
@@ -67,7 +67,7 @@ export function Hero() {
             LIVE SIGNAL · {SITE.region.toUpperCase()}
           </motion.p>
           <motion.h1
-            initial={{ opacity: 0, y: 24 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className="font-display animate-glitch mt-6 max-w-xl text-5xl leading-[0.92] font-black tracking-tight text-glow sm:text-7xl lg:text-8xl"
@@ -80,7 +80,7 @@ export function Hero() {
             </span>
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="mt-6 max-w-lg text-base text-white/75 sm:text-lg"
@@ -90,7 +90,7 @@ export function Hero() {
             Road at noon.
           </motion.p>
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
             className="mt-8 flex flex-wrap items-center gap-3"
@@ -121,7 +121,7 @@ export function Hero() {
         </div>
 
         <motion.aside
-          initial={{ opacity: 0, x: 24 }}
+          initial={false}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.25 }}
           className="hud-frame hidden h-fit self-center rounded-2xl border border-cyan-300/25 bg-black/45 p-5 backdrop-blur-xl lg:block"
