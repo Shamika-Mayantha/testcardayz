@@ -237,6 +237,26 @@
   animation: pulse-dot 1.8s ease-in-out infinite;
 }
 
+.boot-overlay {
+  animation: boot-dismiss 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards;
+}
+
+@keyframes boot-dismiss {
+  0% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+  62% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+  100% {
+    opacity: 0;
+    clip-path: inset(50% 0 50% 0);
+    visibility: hidden;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-load-bar,
   .animate-scan-x,
@@ -247,7 +267,12 @@
 
   .animate-load-bar,
   .animate-scan-x,
-  .animate-scroll-dot {
+  .animate-scroll-dot,
+  .boot-overlay {
     animation: none !important;
+  }
+
+  .boot-overlay {
+    display: none;
   }
 }
