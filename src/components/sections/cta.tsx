@@ -5,7 +5,7 @@ export function Cta() {
   return (
     <section className="relative isolate min-h-[90vh] overflow-hidden">
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-30"
+        className="absolute inset-0 bg-cover bg-[center_30%] opacity-45"
         style={{ backgroundImage: "url(/brand/cta.jpg)" }}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/40" />

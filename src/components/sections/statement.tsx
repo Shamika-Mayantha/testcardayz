@@ -16,7 +16,7 @@ export function Statement() {
     <section ref={ref} className="relative isolate min-h-[140vh] overflow-hidden bg-black">
       <motion.div style={{ y }} className="absolute inset-0">
         <div
-          className="absolute inset-[-12%] bg-cover bg-center opacity-35 grayscale"
+          className="absolute inset-[-12%] bg-cover bg-center opacity-45"
           style={{ backgroundImage: "url(/brand/statement.jpg)" }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black via-black/50 to-black" />

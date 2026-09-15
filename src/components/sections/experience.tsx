@@ -4,11 +4,11 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
 
 const frames = [
-  { src: "/experience/coast.jpg", alt: "Unawatuna beach and palms on the Sri Lankan south coast", label: "COAST" },
-  { src: "/experience/mountains.jpg", alt: "Cloud forest and winding roads in the Ella highlands", label: "HIGHLANDS" },
-  { src: "/experience/tropical.jpg", alt: "Tea country near Kandy", label: "TEA COUNTRY" },
-  { src: "/experience/city.jpg", alt: "Galle Road traffic in Colombo at dusk", label: "CITY" },
-  { src: "/experience/highway.jpg", alt: "Southern Expressway through Sri Lanka", label: "HIGHWAY" },
+  { src: "/experience/coast.jpg", alt: "Open south-coast beach near Galle, looking toward the lighthouse", label: "COAST" },
+  { src: "/experience/mountains.jpg", alt: "Train crossing the Nine Arch Bridge in the Ella highlands", label: "HIGHLANDS" },
+  { src: "/experience/tropical.jpg", alt: "Tea terraces rolling through the hills near Nuwara Eliya", label: "TEA COUNTRY" },
+  { src: "/experience/city.jpg", alt: "Colombo skyline at night reflected in Beira Lake", label: "COLOMBO" },
+  { src: "/experience/highway.jpg", alt: "Rampart path along the Indian Ocean at Galle Fort", label: "GALLE" },
 ];
 
 export function Experience() {
@@ -42,13 +42,13 @@ export function Experience() {
               src={f.src}
               alt={f.alt}
               fill
-              sizes="(max-width: 1024px) 50vw, 20vw"
-              className="object-cover grayscale-[0.4] transition duration-700 hover:scale-105 hover:grayscale-0"
+              sizes={i === 0 ? "(max-width: 1024px) 100vw, 60vw" : "(max-width: 1024px) 50vw, 22vw"}
+              className="object-cover transition duration-700 hover:scale-105"
             />
-            <figcaption className="absolute bottom-3 left-3 font-mono text-[10px] tracking-[0.24em] text-white">
+            <figcaption className="absolute bottom-3 left-3 z-10 font-mono text-[10px] tracking-[0.24em] text-white">
               {f.label}
             </figcaption>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
           </motion.figure>
         ))}
       </div>
