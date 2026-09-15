@@ -24,6 +24,8 @@ export const business = {
   reviews: 26,
   mapsUrl:
     "https://www.google.com/maps/search/?api=1&query=46%2FB%20Liyanage%20Mawatha%2C%20Pelawatta%20Vijithapura%2C%20Battaramulla%2010120%2C%20Sri%20Lanka",
+  lat: 6.8904,
+  lng: 79.9306,
 } as const;
 
 export const telHref = `tel:${business.phone}`;

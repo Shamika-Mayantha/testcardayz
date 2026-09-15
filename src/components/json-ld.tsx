@@ -19,8 +19,8 @@ export function JsonLd() {
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: 6.8721,
-      longitude: 79.9187,
+      latitude: business.lat,
+      longitude: business.lng,
     },
     openingHours: "Mo-Su 09:00-17:00",
     aggregateRating: {

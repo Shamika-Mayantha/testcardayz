@@ -187,7 +187,8 @@
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
   }
 
-  .hud-input:focus {
+  .hud-input:focus,
+  .hud-input:focus-visible {
     border-color: #e10600;
     box-shadow:
       0 0 0 1px rgb(225 6 0 / 45%),

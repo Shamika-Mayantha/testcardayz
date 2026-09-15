@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { fleet } from "@/data/fleet";
 import {
   bookingWhatsappText,
   whatsappHref,
 } from "@/data/business";
+import { DatePicker } from "@/components/ui/date-picker";
 
 function isDate(value: string) {
   return /^\d{4}-\d{2}-\d{2}$/.test(value.trim());
@@ -21,6 +22,7 @@ export function BookingSearch() {
     "We’ll confirm availability on WhatsApp — no automated booking lock."
   );
   const [waLink, setWaLink] = useState<string | null>(null);
+  const todayIso = useMemo(() => new Date().toISOString().slice(0, 10), []);
 
   function checkAvailability() {
     const start = pickup.trim();
@@ -29,7 +31,7 @@ export function BookingSearch() {
       setStatus("error");
       setWaLink(null);
       setMessage(
-        "Choose a pickup and return date. Return must be on or after pickup. Use YYYY-MM-DD."
+        "Choose pickup and return dates from the calendar. Return must be on or after pickup."
       );
       return;
     }
@@ -56,7 +58,7 @@ export function BookingSearch() {
       id="book"
       className="relative z-20 mx-auto -mt-16 w-[min(1180px,calc(100%-1.5rem))] scroll-mt-28 sm:-mt-20"
     >
-      <div className="glass relative overflow-hidden rounded-sm border border-cyan/20 p-4 shadow-[0_30px_80px_rgba(0,0,0,0.55)] sm:p-6">
+      <div className="glass relative overflow-visible rounded-sm border border-cyan/20 p-4 shadow-[0_30px_80px_rgba(0,0,0,0.55)] sm:p-6">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan/70 to-transparent" />
         <div className="mb-4 flex items-end justify-between gap-4">
           <div>
@@ -74,37 +76,30 @@ export function BookingSearch() {
 
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
           <Field label="PICKUP DATE">
-            <input
+            <DatePicker
               id="pickup-date"
-              name="pickup"
-              type="text"
-              inputMode="numeric"
-              autoComplete="off"
-              placeholder="YYYY-MM-DD"
-              aria-label="Pickup date, YYYY-MM-DD"
+              aria-label="Pickup date"
               value={pickup}
-              onChange={(e) => {
-                setPickup(e.target.value);
+              min={todayIso}
+              placeholder="SELECT DATE"
+              onChange={(next) => {
+                setPickup(next);
+                if (ret && ret < next) setRet("");
                 setStatus("idle");
               }}
-              className="hud-input"
             />
           </Field>
           <Field label="RETURN DATE">
-            <input
+            <DatePicker
               id="return-date"
-              name="return"
-              type="text"
-              inputMode="numeric"
-              autoComplete="off"
-              placeholder="YYYY-MM-DD"
-              aria-label="Return date, YYYY-MM-DD"
+              aria-label="Return date"
               value={ret}
-              onChange={(e) => {
-                setRet(e.target.value);
+              min={pickup || todayIso}
+              placeholder="SELECT DATE"
+              onChange={(next) => {
+                setRet(next);
                 setStatus("idle");
               }}
-              className="hud-input"
             />
           </Field>
           <Field label="SELECT VEHICLE">
@@ -187,11 +182,11 @@ function Field({
   children: ReactNode;
 }) {
   return (
-    <label className="block">
+    <div className="block">
       <span className="mb-1.5 block font-mono text-[10px] tracking-[0.22em] text-mute">
         {label}
       </span>
       {children}
-    </label>
+    </div>
   );
 }
