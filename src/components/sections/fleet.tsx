@@ -85,6 +85,7 @@ function VehicleCard({
       <button
         type="button"
         data-cursor="VIEW"
+        data-vehicle-card={vehicle.id}
         onClick={onOpen}
         className="block w-full text-left"
         aria-label={`View ${vehicle.name}`}
@@ -153,6 +154,8 @@ function VehicleModal({
 
   if (!mounted || !vehicle) return null;
 
+  // Lenis applies a transform to `body`, which breaks `position: fixed`
+  // descendants. Attach to `html` so the overlay tracks the viewport.
   return createPortal(
     <div className="fixed inset-0 z-[200] bg-black text-white" role="dialog" aria-modal="true">
       <button
@@ -212,6 +215,6 @@ function VehicleModal({
         </div>
       </div>
     </div>,
-    document.body
+    document.documentElement
   );
 }

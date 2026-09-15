@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { fleet } from "@/data/fleet";
 import { business, telHref } from "@/data/business";
 
@@ -17,8 +17,6 @@ export function BookingSearch() {
   const [message, setMessage] = useState(
     "We’ll confirm availability directly — no automated booking lock."
   );
-
-  const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
 
   function checkAvailability() {
     const start = pickup.trim();
@@ -58,10 +56,13 @@ export function BookingSearch() {
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
           <Field label="PICKUP DATE">
             <input
+              id="pickup-date"
+              name="pickup"
               type="text"
               inputMode="numeric"
               autoComplete="off"
-              placeholder={today}
+              placeholder="YYYY-MM-DD"
+              aria-label="Pickup date, YYYY-MM-DD"
               value={pickup}
               onChange={(e) => {
                 setPickup(e.target.value);
@@ -72,10 +73,13 @@ export function BookingSearch() {
           </Field>
           <Field label="RETURN DATE">
             <input
+              id="return-date"
+              name="return"
               type="text"
               inputMode="numeric"
               autoComplete="off"
-              placeholder={today}
+              placeholder="YYYY-MM-DD"
+              aria-label="Return date, YYYY-MM-DD"
               value={ret}
               onChange={(e) => {
                 setRet(e.target.value);
@@ -112,6 +116,7 @@ export function BookingSearch() {
           <div className="flex items-end">
             <button
               type="button"
+              id="check-availability"
               data-cursor="OPEN"
               onClick={checkAvailability}
               className="w-full border border-cyan bg-cyan py-3.5 font-mono text-[11px] tracking-[0.22em] text-black transition hover:bg-transparent hover:text-cyan"
