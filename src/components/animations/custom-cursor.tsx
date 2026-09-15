@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 type Mode = "default" | "open" | "view" | "book";
 
@@ -9,8 +10,15 @@ export function CustomCursor() {
   const ring = useRef<HTMLDivElement>(null);
   const label = useRef<HTMLDivElement>(null);
   const [mode, setMode] = useState<Mode>("default");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     const fine = window.matchMedia("(pointer: fine)").matches;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!fine || reduce) return;
@@ -61,31 +69,37 @@ export function CustomCursor() {
       raf = requestAnimationFrame(loop);
     };
 
-    window.addEventListener("pointermove", move);
+    window.addEventListener("pointermove", move, { passive: true });
     raf = requestAnimationFrame(loop);
     return () => {
       document.documentElement.classList.remove("has-custom-cursor");
       window.removeEventListener("pointermove", move);
       cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [mounted]);
 
-  return (
-    <>
+  if (!mounted) return null;
+
+  return createPortal(
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-0 z-[9999] hidden md:block"
+    >
       <div
         ref={dot}
-        className="pointer-events-none fixed top-0 left-0 z-[90] hidden size-1.5 rounded-full bg-[#e10600] shadow-[0_0_12px_#e10600] md:block"
+        className="fixed top-0 left-0 size-1.5 rounded-full bg-[#e10600] shadow-[0_0_12px_#e10600]"
       />
       <div
         ref={ring}
-        className="pointer-events-none fixed top-0 left-0 z-[90] hidden size-11 rounded-full border border-[#e10600]/70 md:block"
+        className="fixed top-0 left-0 size-11 rounded-full border border-[#e10600]/70"
       />
       <div
         ref={label}
-        className="pointer-events-none fixed top-0 left-0 z-[90] hidden size-11 items-center justify-center font-display text-[9px] tracking-[0.22em] text-[#e10600] md:flex"
+        className="fixed top-0 left-0 flex size-11 items-center justify-center font-display text-[9px] tracking-[0.22em] text-[#e10600]"
       >
         {mode === "default" ? "" : mode.toUpperCase()}
       </div>
-    </>
+    </div>,
+    document.documentElement
   );
 }

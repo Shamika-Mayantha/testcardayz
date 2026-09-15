@@ -172,7 +172,12 @@ function VehicleModal({
   if (!mounted || !vehicle) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-[200] bg-black text-white" role="dialog" aria-modal="true">
+    <div
+      className="fixed inset-0 z-[200] bg-black text-white"
+      role="dialog"
+      aria-modal="true"
+      data-cursor="VIEW"
+    >
       <button
         type="button"
         onClick={onClose}
