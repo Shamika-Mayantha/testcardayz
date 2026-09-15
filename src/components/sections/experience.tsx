@@ -4,11 +4,11 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
 
 const frames = [
-  { src: "/experience/coast.jpg", alt: "Sri Lankan coastline at dusk", label: "COAST" },
-  { src: "/experience/mountains.jpg", alt: "Tea-country mountains", label: "HIGHLANDS" },
-  { src: "/experience/tropical.jpg", alt: "Palm-lined tropical road", label: "TROPICAL" },
-  { src: "/experience/city.jpg", alt: "Colombo city streets", label: "CITY" },
-  { src: "/experience/highway.jpg", alt: "Open highway through Sri Lanka", label: "HIGHWAY" },
+  { src: "/experience/coast.jpg", alt: "Unawatuna beach and palms on the Sri Lankan south coast", label: "COAST" },
+  { src: "/experience/mountains.jpg", alt: "Cloud forest and winding roads in the Ella highlands", label: "HIGHLANDS" },
+  { src: "/experience/tropical.jpg", alt: "Tea country near Kandy", label: "TEA COUNTRY" },
+  { src: "/experience/city.jpg", alt: "Galle Road traffic in Colombo at dusk", label: "CITY" },
+  { src: "/experience/highway.jpg", alt: "Southern Expressway through Sri Lanka", label: "HIGHWAY" },
 ];
 
 export function Experience() {
