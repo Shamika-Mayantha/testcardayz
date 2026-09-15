@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
-import { Magnetic } from "@/components/animations/magnetic";
 
 export function Hero() {
   const reduce = useReducedMotion();
@@ -48,31 +47,9 @@ export function Hero() {
           <span className="text-white/80">ORDINARY.</span>
         </h1>
 
-        <div className="mt-8 flex max-w-2xl flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
-          <p className="max-w-sm text-sm leading-relaxed text-mute sm:text-base">
-            Your journey starts with the right car.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Magnetic>
-              <a
-                href="#fleet"
-                data-cursor="OPEN"
-                className="inline-flex border border-cyan bg-cyan px-6 py-3.5 font-mono text-[11px] tracking-[0.22em] text-white hover:bg-transparent hover:text-cyan"
-              >
-                EXPLORE THE FLEET →
-              </a>
-            </Magnetic>
-            <Magnetic>
-              <a
-                href="#book"
-                data-cursor="BOOK"
-                className="inline-flex border border-white/25 px-6 py-3.5 font-mono text-[11px] tracking-[0.22em] text-white hover:border-cyan hover:text-cyan"
-              >
-                REQUEST A CAR
-              </a>
-            </Magnetic>
-          </div>
-        </div>
+        <p className="mt-8 max-w-sm text-sm leading-relaxed text-mute sm:text-base">
+          Your journey starts with the right car.
+        </p>
       </div>
 
       <div className="pointer-events-none absolute bottom-8 left-5 hidden items-end gap-3 sm:left-10 lg:flex">
