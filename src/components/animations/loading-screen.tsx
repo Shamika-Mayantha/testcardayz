@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const KEY = "cdl-intro";
@@ -52,16 +53,20 @@ export function LoadingScreen() {
         className="absolute inset-0 opacity-30"
         style={{
           backgroundImage:
-            "linear-gradient(rgb(158 231 255 / 0.06) 1px, transparent 1px), linear-gradient(90deg, rgb(158 231 255 / 0.06) 1px, transparent 1px)",
+            "linear-gradient(rgb(225 6 0 / 0.08) 1px, transparent 1px), linear-gradient(90deg, rgb(225 6 0 / 0.08) 1px, transparent 1px)",
           backgroundSize: "72px 72px",
         }}
       />
-      <p className="label-tech text-[#9ee7ff]">MOBILITY / SRI LANKA</p>
-      <p className="font-display mt-5 text-center text-4xl font-medium tracking-[0.18em] sm:text-6xl">
-        CAR DAYZ LANKA
-      </p>
-      <div className="mt-10 h-px w-48 overflow-hidden bg-white/10">
-        <div className="animate-load-bar h-full origin-left bg-[#9ee7ff]" />
+      <Image
+        src="/brand/logo.jpg"
+        alt="CAR DAYZ LANKA"
+        width={320}
+        height={320}
+        className="relative z-10 h-40 w-40 object-contain sm:h-52 sm:w-52"
+        priority
+      />
+      <div className="relative z-10 mt-10 h-px w-48 overflow-hidden bg-white/10">
+        <div className="animate-load-bar h-full origin-left bg-[#e10600]" />
       </div>
     </div>
   );

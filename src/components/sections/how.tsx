@@ -3,10 +3,10 @@
 import { motion } from "motion/react";
 
 const steps = [
-  { n: "01", title: "CHOOSE", copy: "Find the right vehicle." },
-  { n: "02", title: "REQUEST", copy: "Submit your preferred dates." },
-  { n: "03", title: "CONFIRM", copy: "CAR DAYZ LANKA confirms availability." },
-  { n: "04", title: "DRIVE", copy: "Start your journey." },
+  { n: "01", title: "CHOOSE", copy: "Pick the vehicle that fits the journey." },
+  { n: "02", title: "WHATSAPP", copy: "Send your dates — CAR DAYZ LANKA receives the request instantly." },
+  { n: "03", title: "CONFIRM", copy: "They confirm availability and price by message or call." },
+  { n: "04", title: "DRIVE", copy: "Collect the car and start the road." },
 ];
 
 export function How() {
@@ -29,7 +29,7 @@ export function How() {
                 transition={{ delay: i * 0.08 }}
                 className="relative grid grid-cols-[24px_1fr] gap-6"
               >
-                <span className="relative z-10 mt-1.5 h-3 w-3 rounded-full border border-cyan bg-black shadow-[0_0_12px_rgba(158,231,255,0.7)]" />
+                <span className="relative z-10 mt-1.5 h-3 w-3 rounded-full border border-cyan bg-black shadow-[0_0_12px_rgba(225,6,0,0.75)]" />
                 <div>
                   <p className="font-mono text-[11px] tracking-[0.28em] text-cyan">{s.n}</p>
                   <h3 className="mt-2 font-[family-name:var(--font-oswald)] text-4xl tracking-wide text-white">

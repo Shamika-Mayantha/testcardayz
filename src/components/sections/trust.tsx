@@ -14,13 +14,13 @@ export function Trust() {
         {business.reviews} REVIEWS
       </p>
       <a
-        href={business.facebook}
+        href={business.reviewsUrl}
         target="_blank"
         rel="noreferrer"
         data-cursor="OPEN"
         className="mt-10 inline-flex border border-white/20 px-8 py-4 font-mono text-[11px] tracking-[0.24em] text-white hover:border-cyan hover:text-cyan"
       >
-        SEE OUR REVIEWS →
+        GOOGLE REVIEWS →
       </a>
     </section>
   );

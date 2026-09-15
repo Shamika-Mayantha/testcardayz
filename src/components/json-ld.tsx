@@ -9,7 +9,7 @@ export function JsonLd() {
       "Car rental agency in Battaramulla, Sri Lanka. Request a vehicle for your journey.",
     telephone: business.phone,
     url: business.facebook,
-    image: "/brand/hero.jpg",
+    image: "/brand/logo.jpg",
     address: {
       "@type": "PostalAddress",
       streetAddress: "46/B Liyanage Mawatha, Pelawatta Vijithapura",
@@ -28,7 +28,7 @@ export function JsonLd() {
       ratingValue: business.rating,
       reviewCount: business.reviews,
     },
-    sameAs: [business.facebook],
+    sameAs: [business.facebook, business.reviewsUrl],
   };
 
   return (

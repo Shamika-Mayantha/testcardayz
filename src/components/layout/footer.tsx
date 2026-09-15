@@ -1,4 +1,5 @@
-import { business } from "@/data/business";
+import Image from "next/image";
+import { business, genericWhatsappText, whatsappHref } from "@/data/business";
 
 export function Footer() {
   return (
@@ -6,22 +7,31 @@ export function Footer() {
       <div className="hairline absolute inset-x-0 top-0" />
       <div className="mx-auto flex max-w-[1440px] flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="font-display text-4xl tracking-[0.14em] sm:text-6xl">
-            {business.name}
-          </p>
-          <p className="label-tech mt-3">CAR RENTAL / SRI LANKA</p>
+          <Image
+            src="/brand/logo-mark.jpg"
+            alt={business.name}
+            width={280}
+            height={194}
+            className="h-16 w-auto sm:h-20"
+          />
+          <p className="label-tech mt-4">CAR RENTAL / SRI LANKA</p>
         </div>
         <nav className="flex flex-wrap gap-5">
-          <a href="#fleet" className="label-tech hover:text-[#9ee7ff]">
+          <a href="#fleet" className="label-tech hover:text-[#e10600]">
             FLEET
           </a>
-          <a href="#book" className="label-tech hover:text-[#9ee7ff]">
+          <a href="#book" className="label-tech hover:text-[#e10600]">
             BOOK
           </a>
-          <a href="#about" className="label-tech hover:text-[#9ee7ff]">
-            ABOUT
+          <a
+            href={whatsappHref(genericWhatsappText)}
+            target="_blank"
+            rel="noreferrer"
+            className="label-tech hover:text-[#e10600]"
+          >
+            WHATSAPP
           </a>
-          <a href="#contact" className="label-tech hover:text-[#9ee7ff]">
+          <a href="#contact" className="label-tech hover:text-[#e10600]">
             CONTACT
           </a>
         </nav>

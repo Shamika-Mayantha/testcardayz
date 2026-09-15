@@ -12,8 +12,9 @@
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-oswald);
   --font-display: var(--font-oswald);
-  --color-ice: #9ee7ff;
-  --color-cyan: #9ee7ff;
+  --color-ice: #e10600;
+  --color-cyan: #e10600;
+  --color-brand: #e10600;
   --color-steel: #c8c8c8;
   --color-mute: #afafaf;
   --color-void: #050505;
@@ -63,19 +64,19 @@
   --card-foreground: #ffffff;
   --popover: #0d0d0d;
   --popover-foreground: #ffffff;
-  --primary: #9ee7ff;
-  --primary-foreground: #050505;
+  --primary: #e10600;
+  --primary-foreground: #ffffff;
   --secondary: #141414;
   --secondary-foreground: #ffffff;
   --muted: #141414;
   --muted-foreground: #afafaf;
-  --accent: #9ee7ff;
-  --accent-foreground: #050505;
+  --accent: #e10600;
+  --accent-foreground: #ffffff;
   --destructive: oklch(0.65 0.22 25);
-  --border: rgb(158 231 255 / 16%);
-  --input: rgb(158 231 255 / 14%);
-  --ring: rgb(158 231 255 / 45%);
-  --chart-1: #9ee7ff;
+  --border: rgb(225 6 0 / 22%);
+  --input: rgb(225 6 0 / 18%);
+  --ring: rgb(225 6 0 / 50%);
+  --chart-1: #e10600;
   --chart-2: #c8c8c8;
   --chart-3: #afafaf;
   --chart-4: #3a3a3a;
@@ -83,12 +84,12 @@
   --radius: 0.4rem;
   --sidebar: #080808;
   --sidebar-foreground: #ffffff;
-  --sidebar-primary: #9ee7ff;
-  --sidebar-primary-foreground: #050505;
+  --sidebar-primary: #e10600;
+  --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #141414;
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: rgb(158 231 255 / 12%);
-  --sidebar-ring: rgb(158 231 255 / 40%);
+  --sidebar-border: rgb(225 6 0 / 18%);
+  --sidebar-ring: rgb(225 6 0 / 45%);
 }
 
 @layer base {
@@ -107,7 +108,7 @@
   }
 
   ::selection {
-    background: rgb(158 231 255 / 28%);
+    background: rgb(225 6 0 / 40%);
     color: #fff;
   }
 
@@ -145,7 +146,7 @@
   .glass-panel {
     background: rgb(8 8 8 / 72%);
     backdrop-filter: blur(22px);
-    border: 1px solid rgb(158 231 255 / 18%);
+    border: 1px solid rgb(225 6 0 / 22%);
     box-shadow: 0 0 0 1px rgb(255 255 255 / 3%), 0 20px 60px rgb(0 0 0 / 45%);
   }
 
@@ -162,20 +163,20 @@
 
   .hairline {
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgb(158 231 255 / 55%), transparent);
+    background: linear-gradient(90deg, transparent, rgb(225 6 0 / 70%), transparent);
   }
 
   .glass {
     background: rgb(8 8 8 / 78%);
     backdrop-filter: blur(22px);
-    border: 1px solid rgb(158 231 255 / 18%);
+    border: 1px solid rgb(225 6 0 / 22%);
     box-shadow: 0 0 0 1px rgb(255 255 255 / 3%), 0 24px 70px rgb(0 0 0 / 45%);
   }
 
   .hud-input {
     width: 100%;
     background: rgb(0 0 0 / 45%);
-    border: 1px solid rgb(158 231 255 / 22%);
+    border: 1px solid rgb(225 6 0 / 28%);
     color: #fff;
     padding: 0.85rem 0.9rem;
     font-family: var(--font-geist-mono), ui-monospace, monospace;
@@ -187,10 +188,10 @@
   }
 
   .hud-input:focus {
-    border-color: #9ee7ff;
+    border-color: #e10600;
     box-shadow:
-      0 0 0 1px rgb(158 231 255 / 35%),
-      0 0 28px rgb(158 231 255 / 12%);
+      0 0 0 1px rgb(225 6 0 / 45%),
+      0 0 28px rgb(225 6 0 / 18%);
   }
 }
 

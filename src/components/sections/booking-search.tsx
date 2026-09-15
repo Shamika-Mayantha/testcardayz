@@ -2,7 +2,10 @@
 
 import { useState, type ReactNode } from "react";
 import { fleet } from "@/data/fleet";
-import { business, telHref } from "@/data/business";
+import {
+  bookingWhatsappText,
+  whatsappHref,
+} from "@/data/business";
 
 function isDate(value: string) {
   return /^\d{4}-\d{2}-\d{2}$/.test(value.trim());
@@ -15,21 +18,37 @@ export function BookingSearch() {
   const [passengers, setPassengers] = useState("1-4");
   const [status, setStatus] = useState<"idle" | "error" | "ok">("idle");
   const [message, setMessage] = useState(
-    "We’ll confirm availability directly — no automated booking lock."
+    "We’ll confirm availability on WhatsApp — no automated booking lock."
   );
+  const [waLink, setWaLink] = useState<string | null>(null);
 
   function checkAvailability() {
     const start = pickup.trim();
     const end = ret.trim();
     if (!isDate(start) || !isDate(end) || end < start) {
       setStatus("error");
+      setWaLink(null);
       setMessage(
         "Choose a pickup and return date. Return must be on or after pickup. Use YYYY-MM-DD."
       );
       return;
     }
+    const selected =
+      vehicle === "any"
+        ? "Any vehicle"
+        : (fleet.find((v) => v.id === vehicle)?.name ?? "Any vehicle");
+    const href = whatsappHref(
+      bookingWhatsappText({
+        pickup: start,
+        returnDate: end,
+        vehicle: selected,
+        passengers,
+      })
+    );
+    setWaLink(href);
     setStatus("ok");
     setMessage("");
+    window.open(href, "_blank", "noopener,noreferrer");
   }
 
   return (
@@ -42,7 +61,7 @@ export function BookingSearch() {
         <div className="mb-4 flex items-end justify-between gap-4">
           <div>
             <p className="font-mono text-[10px] tracking-[0.28em] text-cyan">
-              AVAILABILITY / REQUEST
+              AVAILABILITY / WHATSAPP
             </p>
             <h2 className="mt-1 font-[family-name:var(--font-oswald)] text-xl tracking-wide text-white sm:text-2xl">
               PLAN THE DRIVE
@@ -97,7 +116,7 @@ export function BookingSearch() {
               <option value="any">Any vehicle</option>
               {fleet.map((v) => (
                 <option key={v.id} value={v.id}>
-                  {v.name}
+                  {v.name} ({v.year})
                 </option>
               ))}
             </select>
@@ -108,9 +127,9 @@ export function BookingSearch() {
               onChange={(e) => setPassengers(e.target.value)}
               className="hud-input"
             >
+              <option value="1-2">1 – 2</option>
               <option value="1-4">1 – 4</option>
-              <option value="5-7">5 – 7</option>
-              <option value="8+">8+</option>
+              <option value="5">5</option>
             </select>
           </Field>
           <div className="flex items-end">
@@ -119,9 +138,9 @@ export function BookingSearch() {
               id="check-availability"
               data-cursor="OPEN"
               onClick={checkAvailability}
-              className="w-full border border-cyan bg-cyan py-3.5 font-mono text-[11px] tracking-[0.22em] text-black transition hover:bg-transparent hover:text-cyan"
+              className="w-full border border-cyan bg-cyan py-3.5 font-mono text-[11px] tracking-[0.22em] text-white transition hover:bg-transparent hover:text-cyan"
             >
-              CHECK AVAILABILITY →
+              SEND ON WHATSAPP →
             </button>
           </div>
         </div>
@@ -132,26 +151,23 @@ export function BookingSearch() {
               {message}
             </p>
           ) : null}
-          {status === "ok" ? (
+          {status === "ok" && waLink ? (
             <div className="border border-cyan/25 bg-black/40 p-4">
               <p className="font-mono text-[10px] tracking-[0.24em] text-cyan">
-                REQUEST RECEIVED
+                WHATSAPP REQUEST
               </p>
               <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white">
-                This presentation form does not confirm live inventory. Call{" "}
-                <a className="underline underline-offset-4 hover:text-cyan" href={telHref}>
-                  {business.phoneDisplay}
-                </a>{" "}
-                or message CAR DAYZ LANKA on{" "}
+                A WhatsApp message to CAR DAYZ LANKA is opening with your dates
+                and vehicle. If it did not appear,{" "}
                 <a
                   className="underline underline-offset-4 hover:text-cyan"
-                  href={business.facebook}
+                  href={waLink}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Facebook
-                </a>{" "}
-                with your dates and preferred vehicle.
+                  tap here to send it
+                </a>
+                .
               </p>
             </div>
           ) : status === "idle" ? (

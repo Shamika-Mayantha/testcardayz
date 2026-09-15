@@ -1,4 +1,4 @@
-import { business, telHref } from "@/data/business";
+import { business, genericWhatsappText, telHref, whatsappHref } from "@/data/business";
 import { Magnetic } from "@/components/animations/magnetic";
 
 export function Cta() {
@@ -21,11 +21,13 @@ export function Cta() {
         <div className="mt-10 flex flex-wrap gap-4">
           <Magnetic>
             <a
-              href="#book"
+              href={whatsappHref(genericWhatsappText)}
+              target="_blank"
+              rel="noreferrer"
               data-cursor="BOOK"
-              className="inline-flex border border-cyan bg-cyan px-8 py-4 font-mono text-[11px] tracking-[0.24em] text-black hover:bg-transparent hover:text-cyan"
+              className="inline-flex border border-cyan bg-cyan px-8 py-4 font-mono text-[11px] tracking-[0.24em] text-white hover:bg-transparent hover:text-cyan"
             >
-              BOOK A CAR →
+              BOOK ON WHATSAPP →
             </a>
           </Magnetic>
           <a

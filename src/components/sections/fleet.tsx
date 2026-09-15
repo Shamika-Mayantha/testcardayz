@@ -8,6 +8,7 @@ import {
   fleetFilters,
   type Vehicle,
 } from "@/data/fleet";
+import { vehicleWhatsappText, whatsappHref } from "@/data/business";
 
 export function Fleet() {
   const [filter, setFilter] = useState("all");
@@ -29,15 +30,17 @@ export function Fleet() {
   return (
     <section id="fleet" className="relative mt-24 scroll-mt-24 lg:mt-32">
       <div className="mx-auto w-[min(1180px,calc(100%-2rem))]">
-        <p className="font-mono text-[11px] tracking-[0.32em] text-cyan">FLEET / SAMPLE</p>
+        <p className="font-mono text-[11px] tracking-[0.32em] text-cyan">
+          FLEET / AVAILABLE NOW
+        </p>
         <h2 className="mt-3 font-[family-name:var(--font-oswald)] text-[12vw] leading-[0.86] tracking-tight text-white sm:text-7xl lg:text-8xl">
           CHOOSE
           <br />
           YOUR RIDE.
         </h2>
         <p className="mt-5 max-w-xl text-sm leading-relaxed text-mute sm:text-base">
-          From efficient city cars to spacious SUVs and vans, find the right
-          vehicle for your journey.
+          Five vehicles on the road now — compact SUVs and a city hatch, each
+          described so you can match the car to the journey.
         </p>
 
         <div className="mt-8 flex flex-wrap gap-2" role="tablist" aria-label="Vehicle category">
@@ -50,7 +53,7 @@ export function Fleet() {
               onClick={() => setFilter(f.id)}
               className={`border px-3 py-2 font-mono text-[10px] tracking-[0.2em] transition ${
                 filter === f.id
-                  ? "border-cyan bg-cyan text-black"
+                  ? "border-cyan bg-cyan text-white"
                   : "border-white/15 text-mute hover:border-white/40 hover:text-white"
               }`}
             >
@@ -60,11 +63,9 @@ export function Fleet() {
         </div>
       </div>
 
-      <div className="mt-10 flex gap-4 overflow-x-auto px-4 pb-8 snap-x snap-mandatory">
+      <div className="mx-auto mt-10 grid w-[min(1180px,calc(100%-2rem))] gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((v) => (
-          <div key={v.id} className="w-[min(420px,82vw)] shrink-0 snap-center lg:w-[min(560px,70vw)]">
-            <VehicleCard vehicle={v} onOpen={() => openVehicle(v)} />
-          </div>
+          <VehicleCard key={v.id} vehicle={v} onOpen={() => openVehicle(v)} />
         ))}
       </div>
 
@@ -81,7 +82,7 @@ function VehicleCard({
   onOpen: () => void;
 }) {
   return (
-    <article className="overflow-hidden border border-white/10 bg-[#0a0a0a] transition hover:border-cyan/40 hover:shadow-[0_0_40px_rgba(158,231,255,0.08)]">
+    <article className="overflow-hidden border border-white/10 bg-[#0a0a0a] transition hover:border-cyan/40 hover:shadow-[0_0_40px_rgba(225,6,0,0.12)]">
       <button
         type="button"
         data-cursor="VIEW"
@@ -90,33 +91,34 @@ function VehicleCard({
         className="block w-full text-left"
         aria-label={`View ${vehicle.name}`}
       >
-        <div className="relative h-56 overflow-hidden sm:h-72 lg:h-[28rem]">
+        <div className="relative h-56 overflow-hidden sm:h-72">
           <Image
             src={vehicle.image}
             alt={vehicle.alt}
             fill
-            sizes="(max-width: 1024px) 82vw, 70vw"
+            sizes="(max-width: 640px) 100vw, 50vw"
             className="object-cover grayscale-[0.35] transition duration-700 hover:scale-105 hover:grayscale-0"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
           <p className="absolute left-4 top-4 font-mono text-[11px] tracking-[0.28em] text-white/80">
-            {vehicle.code}
+            {vehicle.code} / {vehicle.year}
           </p>
         </div>
         <div className="space-y-3 p-5 sm:p-6">
           <p className="font-mono text-[10px] tracking-[0.22em] text-cyan">
-            {vehicle.fuel.toUpperCase()} / {vehicle.categoryLabel.toUpperCase()}
+            {vehicle.year} / {vehicle.categoryLabel.toUpperCase()}
           </p>
           <h3 className="font-[family-name:var(--font-oswald)] text-3xl tracking-wide text-white sm:text-4xl">
             {vehicle.name}
           </h3>
+          <p className="line-clamp-2 text-sm leading-relaxed text-mute">{vehicle.blurb}</p>
           <div className="flex flex-wrap gap-x-5 gap-y-1 font-mono text-[10px] tracking-[0.16em] text-mute">
             <span>{vehicle.seats} SEATS</span>
             <span>{vehicle.transmission.toUpperCase()}</span>
             <span>{vehicle.fuel.toUpperCase()}</span>
           </div>
           <span className="inline-flex border border-cyan/40 px-4 py-2 font-mono text-[11px] tracking-[0.22em] text-white">
-            REQUEST PRICE →
+            REQUEST ON WHATSAPP →
           </span>
         </div>
       </button>
@@ -154,8 +156,6 @@ function VehicleModal({
 
   if (!mounted || !vehicle) return null;
 
-  // Lenis applies a transform to `body`, which breaks `position: fixed`
-  // descendants. Attach to `html` so the overlay tracks the viewport.
   return createPortal(
     <div className="fixed inset-0 z-[200] bg-black text-white" role="dialog" aria-modal="true">
       <button
@@ -178,14 +178,20 @@ function VehicleModal({
           <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-black/80" />
         </div>
         <div className="relative flex flex-col justify-center px-6 py-10 sm:px-12">
-          <p className="font-mono text-[11px] tracking-[0.28em] text-cyan">{vehicle.code}</p>
+          <p className="font-mono text-[11px] tracking-[0.28em] text-cyan">
+            {vehicle.code} / {vehicle.year}
+          </p>
           <h2 className="mt-3 font-[family-name:var(--font-oswald)] text-5xl tracking-wide text-white sm:text-6xl">
             {vehicle.name}
           </h2>
           <p className="mt-3 font-mono text-[11px] tracking-[0.2em] text-mute">
-            {vehicle.fuel.toUpperCase()} / {vehicle.categoryLabel.toUpperCase()}
+            {vehicle.year} / {vehicle.fuel.toUpperCase()} / {vehicle.categoryLabel.toUpperCase()}
           </p>
           <dl className="mt-8 grid grid-cols-2 gap-4 font-mono text-[11px] tracking-[0.16em]">
+            <div>
+              <dt className="text-mute">YEAR</dt>
+              <dd className="mt-1 text-white">{vehicle.year}</dd>
+            </div>
             <div>
               <dt className="text-mute">SEATS</dt>
               <dd className="mt-1 text-white">{vehicle.seats}</dd>
@@ -198,19 +204,17 @@ function VehicleModal({
               <dt className="text-mute">FUEL</dt>
               <dd className="mt-1 text-white uppercase">{vehicle.fuel}</dd>
             </div>
-            <div>
-              <dt className="text-mute">CLASS</dt>
-              <dd className="mt-1 text-white uppercase">{vehicle.categoryLabel}</dd>
-            </div>
           </dl>
           <p className="mt-6 max-w-md text-sm leading-relaxed text-mute">{vehicle.blurb}</p>
           <a
-            href="#book"
+            href={whatsappHref(vehicleWhatsappText(vehicle.name, vehicle.year))}
+            target="_blank"
+            rel="noreferrer"
             data-cursor="BOOK"
             onClick={onClose}
-            className="mt-10 inline-flex w-fit border border-cyan bg-cyan px-8 py-4 font-mono text-[11px] tracking-[0.24em] text-black hover:bg-transparent hover:text-cyan"
+            className="mt-10 inline-flex w-fit border border-cyan bg-cyan px-8 py-4 font-mono text-[11px] tracking-[0.24em] text-white hover:bg-transparent hover:text-cyan"
           >
-            REQUEST THIS VEHICLE →
+            REQUEST ON WHATSAPP →
           </a>
         </div>
       </div>

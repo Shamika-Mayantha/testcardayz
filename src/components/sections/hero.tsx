@@ -57,7 +57,7 @@ export function Hero() {
               <a
                 href="#fleet"
                 data-cursor="OPEN"
-                className="inline-flex border border-cyan bg-cyan px-6 py-3.5 font-mono text-[11px] tracking-[0.22em] text-black hover:bg-transparent hover:text-cyan"
+                className="inline-flex border border-cyan bg-cyan px-6 py-3.5 font-mono text-[11px] tracking-[0.22em] text-white hover:bg-transparent hover:text-cyan"
               >
                 EXPLORE THE FLEET →
               </a>
@@ -68,7 +68,7 @@ export function Hero() {
                 data-cursor="BOOK"
                 className="inline-flex border border-white/25 px-6 py-3.5 font-mono text-[11px] tracking-[0.22em] text-white hover:border-cyan hover:text-cyan"
               >
-                BOOK A CAR
+                REQUEST A CAR
               </a>
             </Magnetic>
           </div>

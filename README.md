@@ -1,8 +1,8 @@
 # CAR DAYZ LANKA
 
-Premium presentation website for **CAR DAYZ LANKA**, a car rental agency in Battaramulla, Sri Lanka.
+Red-and-black presentation site for **CAR DAYZ LANKA**, a car rental agency in Battaramulla, Sri Lanka.
 
-Cinematic, dark, and automotive — built so the owner can open it and see what a finished modern rental site can feel like. Vehicle names, photos, specs, and availability live in one file so the demo fleet can be swapped for the real one later.
+Availability searches and vehicle requests open WhatsApp to [+94 71 770 8164](https://wa.me/94717708164) so the team receives the booking details directly.
 
 ## Run locally
 
@@ -18,27 +18,31 @@ npm run build
 npm start
 ```
 
-## Replace the demo fleet
+## Fleet
 
-Edit [`src/data/fleet.ts`](src/data/fleet.ts). Each vehicle includes:
+The live fleet is in [`src/data/fleet.ts`](src/data/fleet.ts):
 
-- `name`, `category`, `seats`, `transmission`, `fuel`
-- `image` (file under `/public/fleet`)
-- `blurb` and `highlights`
+| Vehicle | Year |
+| --- | --- |
+| Kia Sonet | 2026 |
+| Toyota Taisor | 2025 |
+| Nissan Magnite | 2026 |
+| Honda Vezel | 2015 |
+| Suzuki Wagon R | 2015 |
 
-Business details (phone, address, hours, Facebook) live in [`src/data/business.ts`](src/data/business.ts).
-
-Inventory and pricing in the demo file are placeholders. On-site CTAs use **REQUEST PRICE** so sample numbers are never shown as real rates.
+Business details, WhatsApp, and Google Reviews live in [`src/data/business.ts`](src/data/business.ts).
 
 ## Stack
 
 - Next.js (App Router) + TypeScript
 - Tailwind CSS v4 + shadcn/ui
-- Motion + Lenis for cinematic motion and smooth scrolling
+- Motion + Lenis
 
 ## Contact
 
+- **WhatsApp:** [+94 71 770 8164](https://wa.me/94717708164)
 - **Phone:** +94 71 770 8164
 - **Address:** 46/B Liyanage Mawatha, Pelawatta Vijithapura, Battaramulla 10120, Sri Lanka
 - **Hours:** 09:00–17:00 daily
+- **Reviews:** [Google Reviews](https://www.google.com/search?q=CAR+DAYZ+LANKA+Reviews)
 - **Facebook:** [CAR DAYZ LK](https://www.facebook.com/p/CAR-DAYZ-LK-61578866334003/)

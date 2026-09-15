@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { business, nav } from "@/data/business";
+import { business, genericWhatsappText, nav, whatsappHref } from "@/data/business";
 import { Magnetic } from "@/components/animations/magnetic";
 import { cn } from "@/lib/utils";
 
@@ -33,15 +34,22 @@ export function Navbar() {
             : "bg-transparent"
         )}
       >
-        <a href="#top" className="font-display text-sm tracking-[0.28em]">
-          {business.name}
+        <a href="#top" className="flex items-center gap-3">
+          <Image
+            src="/brand/logo-mark.jpg"
+            alt={business.name}
+            width={220}
+            height={152}
+            className="h-10 w-auto sm:h-12"
+            priority
+          />
         </a>
         <nav className="hidden items-center gap-8 lg:flex">
           {nav.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="label-tech transition hover:text-[#9ee7ff]"
+              className="label-tech transition hover:text-[#e10600]"
             >
               {item.label}
             </a>
@@ -50,11 +58,13 @@ export function Navbar() {
         <div className="flex items-center gap-3">
           <Magnetic>
             <a
-              href="#book"
+              href={whatsappHref(genericWhatsappText)}
+              target="_blank"
+              rel="noreferrer"
               data-cursor="book"
-              className="hidden border border-[#9ee7ff]/40 px-4 py-2 font-display text-xs tracking-[0.22em] text-[#9ee7ff] transition hover:bg-[#9ee7ff] hover:text-[#050505] sm:inline-flex"
+              className="hidden border border-[#e10600]/50 px-4 py-2 font-display text-xs tracking-[0.22em] text-[#e10600] transition hover:bg-[#e10600] hover:text-white sm:inline-flex"
             >
-              BOOK NOW →
+              BOOK ON WHATSAPP →
             </a>
           </Magnetic>
           <button
@@ -91,11 +101,13 @@ export function Navbar() {
                 </motion.a>
               ))}
               <a
-                href="#book"
+                href={whatsappHref(genericWhatsappText)}
+                target="_blank"
+                rel="noreferrer"
                 onClick={() => setOpen(false)}
-                className="mt-4 font-display text-xl tracking-[0.2em] text-[#9ee7ff]"
+                className="mt-4 font-display text-xl tracking-[0.2em] text-[#e10600]"
               >
-                BOOK NOW →
+                BOOK ON WHATSAPP →
               </a>
             </nav>
           </motion.div>

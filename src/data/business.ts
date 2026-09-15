@@ -17,6 +17,9 @@ export const business = {
   hoursNote: "DAILY",
   facebook:
     "https://www.facebook.com/p/CAR-DAYZ-LK-61578866334003/",
+  whatsapp: "https://wa.me/94717708164",
+  reviewsUrl:
+    "https://www.google.com/search?q=CAR+DAYZ+LANKA+Reviews&si=APenkKm7iecQ4G6P-TsbSMFKIQtv3EFIqRAFw-i8uEbk55Z-_wiKammmCWz6xnttHzIrLAAAVsoKY7Sei4lNT72ZnNAkTEkR6_yh59fChWsU3t2jT3MypzHExQZgqfcERTRQQaWf5THp&hl=en",
   rating: 5.0,
   reviews: 26,
   mapsUrl:
@@ -25,6 +28,35 @@ export const business = {
 
 export const telHref = `tel:${business.phone}`;
 export const mapsUrl = business.mapsUrl;
+export const whatsappUrl = business.whatsapp;
+
+export function whatsappHref(text: string) {
+  return `${business.whatsapp}?text=${encodeURIComponent(text)}`;
+}
+
+export function bookingWhatsappText(opts: {
+  pickup: string;
+  returnDate: string;
+  vehicle: string;
+  passengers: string;
+}) {
+  return [
+    "Hello CAR DAYZ LANKA,",
+    "I would like to request a rental.",
+    `Pickup: ${opts.pickup}`,
+    `Return: ${opts.returnDate}`,
+    `Vehicle: ${opts.vehicle}`,
+    `Passengers: ${opts.passengers}`,
+    "Please confirm availability and price. Thank you.",
+  ].join("\n");
+}
+
+export function vehicleWhatsappText(name: string, year: number) {
+  return `Hello CAR DAYZ LANKA, I would like to request the ${name} (${year}). Please share availability and price.`;
+}
+
+export const genericWhatsappText =
+  "Hello CAR DAYZ LANKA, I would like to book a car. Please share availability and price.";
 
 export const nav = [
   { href: "#fleet", label: "FLEET" },
