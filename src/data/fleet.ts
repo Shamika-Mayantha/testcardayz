@@ -14,6 +14,7 @@ export type Vehicle = {
   seatsLabel: string;
   fuel: string;
   image: string;
+  images: readonly string[];
   alt: string;
   blurb: string;
   highlights: readonly string[];
@@ -24,6 +25,13 @@ export const fleetFilters: { id: "all" | VehicleCategory; label: string }[] = [
   { id: "suv", label: "SUV" },
   { id: "hatchback", label: "HATCHBACK" },
 ];
+
+function shots(folder: string, count: number) {
+  return Array.from({ length: count }, (_, i) => {
+    const n = String(i + 1).padStart(2, "0");
+    return `/fleet/${folder}/${n}.jpg`;
+  });
+}
 
 export const fleet: Vehicle[] = [
   {
@@ -39,7 +47,8 @@ export const fleet: Vehicle[] = [
     seats: 5,
     seatsLabel: "5 SEATS",
     fuel: "Petrol",
-    image: "/fleet/sonet.jpg",
+    images: shots("sonet", 7),
+    image: "/fleet/sonet/01.jpg",
     alt: "Kia Sonet compact SUV",
     blurb:
       "A 2026 compact SUV with a high driving position and a modern cabin — built for Colombo traffic in the morning and the Southern Expressway by afternoon. Five seats, automatic, easy to place in Battaramulla lanes.",
@@ -58,7 +67,8 @@ export const fleet: Vehicle[] = [
     seats: 5,
     seatsLabel: "5 SEATS",
     fuel: "Petrol",
-    image: "/fleet/taisor.jpg",
+    images: shots("taisor", 5),
+    image: "/fleet/taisor/01.jpg",
     alt: "Toyota Urban Cruiser Taisor compact crossover",
     blurb:
       "The 2025 Toyota Taisor (Urban Cruiser Taisor) is a coupe-roof compact crossover — sharper looks than a hatch, still city-friendly. A strong choice for couples and small families who want Toyota familiarity with SUV height.",
@@ -77,7 +87,8 @@ export const fleet: Vehicle[] = [
     seats: 5,
     seatsLabel: "5 SEATS",
     fuel: "Petrol",
-    image: "/fleet/magnite.jpg",
+    images: shots("magnite", 5),
+    image: "/fleet/magnite/01.jpg",
     alt: "Nissan Magnite compact SUV",
     blurb:
       "A 2026 Nissan Magnite — bold compact SUV lines, a raised ride for mixed Sri Lankan roads, and five seats for coast runs or hill-country weekends. Automatic, petrol, and sized for town as well as the open road.",
@@ -96,7 +107,8 @@ export const fleet: Vehicle[] = [
     seats: 5,
     seatsLabel: "5 SEATS",
     fuel: "Hybrid",
-    image: "/fleet/vezel.jpg",
+    images: shots("vezel", 5),
+    image: "/fleet/vezel/01.jpg",
     alt: "2015 Honda Vezel crossover",
     blurb:
       "A 2015 Honda Vezel — the first-generation crossover many Sri Lankan drivers already trust. Hybrid manners for longer island stretches, a comfortable cabin, and SUV seating without a bulky footprint.",
@@ -115,7 +127,8 @@ export const fleet: Vehicle[] = [
     seats: 5,
     seatsLabel: "5 SEATS",
     fuel: "Petrol",
-    image: "/fleet/wagon-r.jpg",
+    images: shots("wagon-r", 5),
+    image: "/fleet/wagon-r/01.jpg",
     alt: "2015 Suzuki Wagon R tall hatchback",
     blurb:
       "A 2015 Suzuki Wagon R — the tall city hatch that slips into tight parking, sips petrol, and still seats five. Ideal for Battaramulla errands, airport hops, and anyone who wants a simple, upright drive.",

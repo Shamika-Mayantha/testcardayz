@@ -2,13 +2,13 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import Image from "next/image";
 import {
   fleet as fleetData,
   fleetFilters,
   type Vehicle,
 } from "@/data/fleet";
 import { vehicleWhatsappText, whatsappHref } from "@/data/business";
+import { VehicleSlideshow } from "@/components/fleet/vehicle-slideshow";
 
 export function Fleet() {
   const [filter, setFilter] = useState("all");
@@ -64,8 +64,13 @@ export function Fleet() {
       </div>
 
       <div className="mx-auto mt-10 grid w-[min(1180px,calc(100%-2rem))] gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((v) => (
-          <VehicleCard key={v.id} vehicle={v} onOpen={() => openVehicle(v)} />
+        {items.map((v, i) => (
+          <VehicleCard
+            key={v.id}
+            vehicle={v}
+            delay={i * 380}
+            onOpen={() => openVehicle(v)}
+          />
         ))}
       </div>
 
@@ -76,13 +81,21 @@ export function Fleet() {
 
 function VehicleCard({
   vehicle,
+  delay,
   onOpen,
 }: {
   vehicle: Vehicle;
+  delay: number;
   onOpen: () => void;
 }) {
+  const [paused, setPaused] = useState(false);
+
   return (
-    <article className="overflow-hidden border border-white/10 bg-[#0a0a0a] transition hover:border-cyan/40 hover:shadow-[0_0_40px_rgba(225,6,0,0.12)]">
+    <article
+      className="group overflow-hidden border border-white/10 bg-[#0a0a0a] transition hover:border-cyan/40 hover:shadow-[0_0_40px_rgba(225,6,0,0.12)]"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
       <button
         type="button"
         data-cursor="VIEW"
@@ -92,15 +105,17 @@ function VehicleCard({
         aria-label={`View ${vehicle.name}`}
       >
         <div className="relative h-56 overflow-hidden sm:h-72">
-          <Image
-            src={vehicle.image}
+          <VehicleSlideshow
+            images={vehicle.images}
             alt={vehicle.alt}
-            fill
             sizes="(max-width: 640px) 100vw, 50vw"
-            className="object-cover grayscale-[0.35] transition duration-700 hover:scale-105 hover:grayscale-0"
+            delay={delay}
+            interval={4200}
+            paused={paused}
+            className="transition duration-700"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-          <p className="absolute left-4 top-4 font-mono text-[11px] tracking-[0.28em] text-white/80">
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/15 to-transparent" />
+          <p className="pointer-events-none absolute left-4 top-4 z-10 font-mono text-[11px] tracking-[0.28em] text-white/80">
             {vehicle.code} / {vehicle.year}
           </p>
         </div>
@@ -167,15 +182,15 @@ function VehicleModal({
       </button>
       <div className="grid min-h-[100svh] lg:grid-cols-[1.2fr_0.8fr]">
         <div className="relative min-h-[42vh]">
-          <Image
-            src={vehicle.image}
+          <VehicleSlideshow
+            images={vehicle.images}
             alt={vehicle.alt}
-            fill
-            className="object-cover"
-            sizes="100vw"
+            sizes="(min-width: 1024px) 60vw, 100vw"
+            interval={3800}
             priority
+            interactive
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-black/80" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/10 to-black/70" />
         </div>
         <div className="relative flex flex-col justify-center px-6 py-10 sm:px-12">
           <p className="font-mono text-[11px] tracking-[0.28em] text-cyan">
