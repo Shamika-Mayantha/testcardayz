@@ -67,8 +67,14 @@ export const fleet: Vehicle[] = [
     seats: 5,
     seatsLabel: "5 SEATS",
     fuel: "Petrol",
-    images: shots("taisor", 5),
-    image: "/fleet/taisor/01.jpg",
+    images: [
+      "/fleet/taisor/02.jpg",
+      "/fleet/taisor/03.jpg",
+      "/fleet/taisor/04.jpg",
+      "/fleet/taisor/05.jpg",
+      "/fleet/taisor/01.jpg",
+    ],
+    image: "/fleet/taisor/02.jpg",
     alt: "Toyota Urban Cruiser Taisor compact crossover",
     blurb:
       "The 2025 Toyota Taisor (Urban Cruiser Taisor) is a coupe-roof compact crossover — sharper looks than a hatch, still city-friendly. A strong choice for couples and small families who want Toyota familiarity with SUV height.",
