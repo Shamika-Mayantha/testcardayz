@@ -238,6 +238,7 @@
 }
 
 .boot-overlay {
+  pointer-events: none;
   animation: boot-dismiss 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards;
 }
 

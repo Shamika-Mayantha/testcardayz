@@ -1,4 +1,48 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+const KEY = "cdl-intro";
+
 export function LoadingScreen() {
+  const [gone, setGone] = useState(false);
+
+  useEffect(() => {
+    let hide = 0;
+    let failsafe = 0;
+
+    try {
+      if (sessionStorage.getItem(KEY) === "1") {
+        hide = window.setTimeout(() => setGone(true), 0);
+        return () => window.clearTimeout(hide);
+      }
+    } catch {
+      /* ignore quota / private mode */
+    }
+
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    hide = window.setTimeout(() => {
+      try {
+        sessionStorage.setItem(KEY, "1");
+      } catch {
+        /* ignore */
+      }
+      setGone(true);
+    }, reduce ? 0 : 1100);
+
+    failsafe = window.setTimeout(() => setGone(true), 1600);
+
+    return () => {
+      window.clearTimeout(hide);
+      window.clearTimeout(failsafe);
+    };
+  }, []);
+
+  if (gone) return null;
+
   return (
     <div
       className="boot-overlay pointer-events-none fixed inset-0 z-[80] flex flex-col items-center justify-center bg-[#050505]"
