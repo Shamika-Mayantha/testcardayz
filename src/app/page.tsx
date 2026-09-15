@@ -18,26 +18,28 @@ import { Why } from "@/components/sections/why";
 
 export default function Home() {
   return (
-    <SmoothScroll>
+    <>
       <LoadingScreen />
       <CustomCursor />
-      <div className="grain pointer-events-none fixed inset-0 z-[45] hidden md:block" />
+      <div className="grain pointer-events-none fixed inset-0 z-[2] hidden md:block" />
       <Navbar />
-      <main className="flex-1 pb-16 md:pb-0">
-        <Hero />
-        <BookingSearch />
-        <Fleet />
-        <Statement />
-        <Why />
-        <Experience />
-        <How />
-        <Trust />
-        <Cta />
-        <Contact />
-        <Social />
-      </main>
-      <Footer />
+      <SmoothScroll>
+        <main className="flex-1 pb-16 md:pb-0">
+          <Hero />
+          <BookingSearch />
+          <Fleet />
+          <Statement />
+          <Why />
+          <Experience />
+          <How />
+          <Trust />
+          <Cta />
+          <Contact />
+          <Social />
+        </main>
+        <Footer />
+      </SmoothScroll>
       <MobileBookBar />
-    </SmoothScroll>
+    </>
   );
 }

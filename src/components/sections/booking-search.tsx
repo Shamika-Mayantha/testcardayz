@@ -15,6 +15,7 @@ export function BookingSearch() {
 
   function submit(e: FormEvent) {
     e.preventDefault();
+    e.stopPropagation();
     if (!pickup || !ret) {
       setStatus("error");
       return;
@@ -33,6 +34,8 @@ export function BookingSearch() {
     >
       <form
         onSubmit={submit}
+        noValidate
+        action="#book"
         className="glass relative overflow-hidden rounded-sm border border-cyan/20 p-4 shadow-[0_30px_80px_rgba(0,0,0,0.55)] sm:p-6"
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan/70 to-transparent" />
@@ -54,6 +57,7 @@ export function BookingSearch() {
           <Field label="PICKUP DATE">
             <input
               type="date"
+              name="pickup"
               min={today}
               value={pickup}
               onChange={(e) => {
@@ -66,6 +70,7 @@ export function BookingSearch() {
           <Field label="RETURN DATE">
             <input
               type="date"
+              name="return"
               min={pickup || today}
               value={ret}
               onChange={(e) => {
@@ -77,6 +82,7 @@ export function BookingSearch() {
           </Field>
           <Field label="SELECT VEHICLE">
             <select
+              name="vehicle"
               value={vehicle}
               onChange={(e) => setVehicle(e.target.value)}
               className="hud-input"
@@ -91,6 +97,7 @@ export function BookingSearch() {
           </Field>
           <Field label="NUMBER OF PASSENGERS">
             <select
+              name="passengers"
               value={passengers}
               onChange={(e) => setPassengers(e.target.value)}
               className="hud-input"
@@ -111,37 +118,41 @@ export function BookingSearch() {
           </div>
         </div>
 
-        {status === "error" ? (
-          <p className="mt-4 font-mono text-[11px] tracking-[0.12em] text-red-300" role="alert">
-            Choose a pickup and return date. Return must be on or after pickup.
-          </p>
-        ) : null}
-
-        {status === "ok" ? (
-          <div className="mt-5 border border-cyan/25 bg-black/40 p-4">
-            <p className="font-mono text-[10px] tracking-[0.24em] text-cyan">REQUEST RECEIVED</p>
-            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-mute">
-              This presentation form does not confirm live inventory. Call{" "}
-              <a className="text-white underline-offset-4 hover:underline" href={telHref}>
-                {business.phoneDisplay}
-              </a>{" "}
-              or message CAR DAYZ LANKA on{" "}
-              <a
-                className="text-white underline-offset-4 hover:underline"
-                href={business.facebook}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Facebook
-              </a>{" "}
-              with your dates and preferred vehicle.
+        <div className="mt-4" aria-live="polite">
+          {status === "error" ? (
+            <p className="font-mono text-[11px] tracking-[0.12em] text-red-300" role="alert">
+              Choose a pickup and return date. Return must be on or after pickup.
             </p>
-          </div>
-        ) : (
-          <p className="mt-4 font-mono text-[10px] tracking-[0.16em] text-mute">
-            We’ll confirm availability directly — no automated booking lock.
-          </p>
-        )}
+          ) : null}
+
+          {status === "ok" ? (
+            <div className="border border-cyan/25 bg-black/40 p-4">
+              <p className="font-mono text-[10px] tracking-[0.24em] text-cyan">
+                REQUEST RECEIVED
+              </p>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white">
+                This presentation form does not confirm live inventory. Call{" "}
+                <a className="underline underline-offset-4 hover:text-cyan" href={telHref}>
+                  {business.phoneDisplay}
+                </a>{" "}
+                or message CAR DAYZ LANKA on{" "}
+                <a
+                  className="underline underline-offset-4 hover:text-cyan"
+                  href={business.facebook}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Facebook
+                </a>{" "}
+                with your dates and preferred vehicle.
+              </p>
+            </div>
+          ) : status === "idle" ? (
+            <p className="font-mono text-[10px] tracking-[0.16em] text-mute">
+              We’ll confirm availability directly — no automated booking lock.
+            </p>
+          ) : null}
+        </div>
       </form>
     </section>
   );

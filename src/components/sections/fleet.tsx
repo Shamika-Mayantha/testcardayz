@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
@@ -8,14 +9,19 @@ import {
   fleetFilters,
   type Vehicle,
 } from "@/data/fleet";
-import { Magnetic } from "@/components/animations/magnetic";
 
 export function Fleet() {
   const [filter, setFilter] = useState("all");
   const [active, setActive] = useState<Vehicle | null>(null);
+  const [canPortal, setCanPortal] = useState(false);
   const reduced = useReducedMotion();
   const pinRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const t = window.setTimeout(() => setCanPortal(true), 0);
+    return () => window.clearTimeout(t);
+  }, []);
 
   const items =
     filter === "all"
@@ -71,12 +77,18 @@ export function Fleet() {
           vehicle for your journey.
         </p>
 
-        <div className="mt-8 flex flex-wrap gap-2">
+        <div className="mt-8 flex flex-wrap gap-2" role="tablist" aria-label="Vehicle category">
           {fleetFilters.map((f) => (
             <button
               key={f.id}
               type="button"
-              onClick={() => setFilter(f.id)}
+              role="tab"
+              aria-selected={filter === f.id}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setFilter(f.id);
+              }}
               className={`border px-3 py-2 font-mono text-[10px] tracking-[0.2em] transition ${
                 filter === f.id
                   ? "border-cyan bg-cyan text-black"
@@ -89,7 +101,6 @@ export function Fleet() {
         </div>
       </div>
 
-      {/* Mobile / tablet carousel */}
       <div className="mt-10 flex gap-4 overflow-x-auto px-4 pb-6 snap-x snap-mandatory lg:hidden">
         <AnimatePresence mode="popLayout">
           {items.map((v) => (
@@ -107,7 +118,6 @@ export function Fleet() {
         </AnimatePresence>
       </div>
 
-      {/* Desktop horizontal scroll-jack */}
       <div
         ref={pinRef}
         className="relative mt-8 hidden lg:block"
@@ -124,11 +134,16 @@ export function Fleet() {
         </div>
       </div>
 
-      <AnimatePresence>
-        {active ? (
-          <VehicleModal vehicle={active} onClose={() => setActive(null)} />
-        ) : null}
-      </AnimatePresence>
+      {canPortal
+        ? createPortal(
+            <AnimatePresence>
+              {active ? (
+                <VehicleModal vehicle={active} onClose={() => setActive(null)} />
+              ) : null}
+            </AnimatePresence>,
+            document.body
+          )
+        : null}
     </section>
   );
 }
@@ -143,32 +158,14 @@ function VehicleCard({
   compact?: boolean;
 }) {
   return (
-    <motion.article
-      data-cursor="VIEW"
-      onClick={onOpen}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onOpen();
-        }
-      }}
-      tabIndex={0}
-      role="button"
-      aria-label={`View ${vehicle.name}`}
-      whileHover={{ y: compact ? 0 : -6 }}
-      onMouseMove={(e) => {
-        if (compact || window.matchMedia("(pointer: coarse)").matches) return;
-        const el = e.currentTarget;
-        const r = el.getBoundingClientRect();
-        const rx = ((e.clientY - r.top) / r.height - 0.5) * -5;
-        const ry = ((e.clientX - r.left) / r.width - 0.5) * 7;
-        el.style.transform = `perspective(1100px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = "";
-      }}
-      className="group relative overflow-hidden border border-white/10 bg-[#0a0a0a] outline-none transition hover:border-cyan/40 hover:shadow-[0_0_40px_rgba(158,231,255,0.08)] focus-visible:border-cyan"
-    >
+    <article className="group relative overflow-hidden border border-white/10 bg-[#0a0a0a] outline-none transition hover:border-cyan/40 hover:shadow-[0_0_40px_rgba(158,231,255,0.08)] focus-within:border-cyan">
+      <button
+        type="button"
+        data-cursor="VIEW"
+        onClick={onOpen}
+        aria-label={`View ${vehicle.name}`}
+        className="absolute inset-0 z-10"
+      />
       <div className={`relative overflow-hidden ${compact ? "h-52" : "h-[52vh] min-h-[360px]"}`}>
         <Image
           src={vehicle.image}
@@ -182,7 +179,7 @@ function VehicleCard({
           {vehicle.code}
         </p>
       </div>
-      <div className="space-y-3 p-5 sm:p-6">
+      <div className="relative space-y-3 p-5 sm:p-6">
         <p className="font-mono text-[10px] tracking-[0.22em] text-cyan">
           {vehicle.fuel.toUpperCase()} / {vehicle.categoryLabel.toUpperCase()}
         </p>
@@ -194,13 +191,11 @@ function VehicleCard({
           <span>{vehicle.transmission.toUpperCase()}</span>
           <span>{vehicle.fuel.toUpperCase()}</span>
         </div>
-        <Magnetic>
-          <span className="inline-flex font-mono text-[11px] tracking-[0.22em] text-white group-hover:text-cyan">
-            REQUEST PRICE →
-          </span>
-        </Magnetic>
+        <p className="font-mono text-[11px] tracking-[0.22em] text-white group-hover:text-cyan">
+          REQUEST PRICE →
+        </p>
       </div>
-    </motion.article>
+    </article>
   );
 }
 
@@ -213,7 +208,7 @@ function VehicleModal({
 }) {
   return (
     <motion.div
-      className="fixed inset-0 z-[80] bg-black"
+      className="fixed inset-0 z-[90] bg-black"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
