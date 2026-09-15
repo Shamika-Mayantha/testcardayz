@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Orbitron } from "next/font/google";
+import { Geist, Geist_Mono, Oswald } from "next/font/google";
 import "./globals.css";
+import { business } from "@/data/business";
+import { JsonLd } from "@/components/json-ld";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,36 +14,34 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const orbitron = Orbitron({
-  variable: "--font-orbitron",
+const oswald = Oswald({
+  variable: "--font-oswald",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "CAR DAYZ LANKA — Wrap. Protect. Reveal.",
+  title: "CAR DAYZ LANKA | Car Rental in Sri Lanka",
   description:
-    "CAR DAYZ LANKA is a futuristic automotive studio in Sri Lanka for color-change wraps, PPF, ceramic coating, tint, and precision detailing. Book through Facebook.",
-  applicationName: "CAR DAYZ LANKA",
+    "CAR DAYZ LANKA — explore Sri Lanka with a modern car rental experience in Battaramulla. Discover vehicles and request your next ride.",
+  applicationName: business.name,
   keywords: [
     "CAR DAYZ LANKA",
-    "CAR DAYZ LK",
-    "car wrap Sri Lanka",
-    "PPF Colombo",
-    "ceramic coating",
-    "car detailing Sri Lanka",
+    "car rental Sri Lanka",
+    "car hire Battaramulla",
+    "Pelawatta car rental",
   ],
   openGraph: {
-    title: "CAR DAYZ LANKA",
+    title: "CAR DAYZ LANKA | Car Rental in Sri Lanka",
     description:
-      "Rewrite the machine. Vinyl wrap, PPF, ceramic, and detailing for Sri Lankan roads.",
+      "Explore Sri Lanka with a modern car rental experience in Battaramulla.",
     type: "website",
     locale: "en_LK",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#07080d",
+  themeColor: "#050505",
   width: "device-width",
   initialScale: 1,
 };
@@ -50,9 +50,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`dark ${geistSans.variable} ${geistMono.variable} ${orbitron.variable} h-full antialiased`}
+      className={`dark ${geistSans.variable} ${geistMono.variable} ${oswald.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col overflow-x-hidden">
+      <body className="min-h-full flex flex-col overflow-x-hidden bg-[#050505] text-white">
+        <JsonLd />
         {children}
       </body>
     </html>

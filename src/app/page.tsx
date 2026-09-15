@@ -1,29 +1,43 @@
-import { About } from "@/components/about";
-import { Book } from "@/components/book";
-import { CustomCursor } from "@/components/custom-cursor";
-import { Garage } from "@/components/garage";
-import { Hero } from "@/components/hero";
-import { IntroOverlay } from "@/components/intro-overlay";
-import { Process } from "@/components/process";
-import { Services } from "@/components/services";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { CustomCursor } from "@/components/animations/custom-cursor";
+import { LoadingScreen } from "@/components/animations/loading-screen";
+import { SmoothScroll } from "@/components/animations/smooth-scroll";
+import { Footer } from "@/components/layout/footer";
+import { MobileBookBar } from "@/components/layout/mobile-book-bar";
+import { Navbar } from "@/components/layout/navbar";
+import { BookingSearch } from "@/components/sections/booking-search";
+import { Contact } from "@/components/sections/contact";
+import { Cta } from "@/components/sections/cta";
+import { Experience } from "@/components/sections/experience";
+import { Fleet } from "@/components/sections/fleet";
+import { Hero } from "@/components/sections/hero";
+import { How } from "@/components/sections/how";
+import { Social } from "@/components/sections/social";
+import { Statement } from "@/components/sections/statement";
+import { Trust } from "@/components/sections/trust";
+import { Why } from "@/components/sections/why";
 
 export default function Home() {
   return (
-    <>
-      <IntroOverlay />
+    <SmoothScroll>
+      <LoadingScreen />
       <CustomCursor />
-      <SiteHeader />
-      <main className="flex-1">
+      <div className="grain pointer-events-none fixed inset-0 z-[45] hidden md:block" />
+      <Navbar />
+      <main className="flex-1 pb-16 md:pb-0">
         <Hero />
-        <Services />
-        <Garage />
-        <Process />
-        <About />
-        <Book />
+        <BookingSearch />
+        <Fleet />
+        <Statement />
+        <Why />
+        <Experience />
+        <How />
+        <Trust />
+        <Cta />
+        <Contact />
+        <Social />
       </main>
-      <SiteFooter />
-    </>
+      <Footer />
+      <MobileBookBar />
+    </SmoothScroll>
   );
 }
