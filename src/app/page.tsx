@@ -1,5 +1,6 @@
 import { CustomCursor } from "@/components/animations/custom-cursor";
 import { LoadingScreen } from "@/components/animations/loading-screen";
+import { RoadMarquee, ScrollProgress } from "@/components/animations/scroll-extras";
 import { SmoothScroll } from "@/components/animations/smooth-scroll";
 import { Footer } from "@/components/layout/footer";
 import { MobileBookBar } from "@/components/layout/mobile-book-bar";
@@ -21,14 +22,16 @@ export default function Home() {
     <>
       <LoadingScreen />
       <CustomCursor />
+      <ScrollProgress />
       <div className="grain pointer-events-none fixed inset-0 z-[2] hidden md:block" />
       <Navbar />
       <SmoothScroll>
         <main className="flex-1 pb-16 md:pb-0">
           <Hero />
           <BookingSearch />
-          <Fleet />
           <Statement />
+          <Fleet />
+          <RoadMarquee />
           <Why />
           <Experience />
           <How />

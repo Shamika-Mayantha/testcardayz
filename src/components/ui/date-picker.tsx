@@ -158,7 +158,7 @@ export function DatePicker({
             left: coords.left,
             width: coords.width,
           }}
-          className="z-[120] border border-[#e10600]/40 bg-[#080808] p-3 shadow-[0_24px_60px_rgba(0,0,0,0.75)]"
+          className="z-[120] border border-[#e8a33d]/40 bg-[#12100e] p-3 shadow-[0_24px_60px_rgba(0,0,0,0.75)]"
         >
           <div className="mb-3 flex items-center justify-between">
             <button
@@ -173,11 +173,11 @@ export function DatePicker({
                   return prev;
                 })
               }
-              className="flex size-8 items-center justify-center border border-white/10 text-white hover:border-[#e10600] hover:text-[#e10600]"
+              className="flex size-8 items-center justify-center border border-white/10 text-white hover:border-[#e8a33d] hover:text-[#e8a33d]"
             >
               <ChevronLeft className="size-4" />
             </button>
-            <p className="font-mono text-[10px] tracking-[0.22em] text-[#e10600]">
+            <p className="font-mono text-[10px] tracking-[0.22em] text-[#e8a33d]">
               {MONTHS[view.getMonth()]} {view.getFullYear()}
             </p>
             <button
@@ -189,7 +189,7 @@ export function DatePicker({
                     new Date(current.getFullYear(), current.getMonth() + 1, 1)
                 )
               }
-              className="flex size-8 items-center justify-center border border-white/10 text-white hover:border-[#e10600] hover:text-[#e10600]"
+              className="flex size-8 items-center justify-center border border-white/10 text-white hover:border-[#e8a33d] hover:text-[#e8a33d]"
             >
               <ChevronRight className="size-4" />
             </button>
@@ -226,9 +226,9 @@ export function DatePicker({
                     disabled
                       ? "cursor-not-allowed text-white/20"
                       : isSelected
-                        ? "bg-[#e10600] text-white"
+                        ? "bg-[#e8a33d] text-ink"
                         : isToday
-                          ? "border border-[#e10600]/70 text-white hover:bg-[#e10600]/20"
+                          ? "border border-[#e8a33d]/70 text-white hover:bg-[#e8a33d]/20"
                           : "text-white/80 hover:bg-white/10"
                   }`}
                 >
@@ -256,7 +256,7 @@ export function DatePicker({
         <span className={value ? "text-white" : "text-white/35"}>
           {value ? formatDisplay(value) : placeholder}
         </span>
-        <CalendarDays className="size-4 shrink-0 text-[#e10600]" />
+        <CalendarDays className="size-4 shrink-0 text-[#e8a33d]" />
       </button>
       {calendar}
     </div>

@@ -6,21 +6,21 @@ import { useEffect, useRef, useState } from "react";
 import { usePinnedProgress } from "@/components/journey/use-pinned-progress";
 
 const frames = [
-  { src: "/experience/coast.jpg", alt: "Open south-coast beach near Galle, looking toward the lighthouse", label: "COAST", km: "KM 000" },
-  { src: "/experience/mountains.jpg", alt: "Train crossing the Nine Arch Bridge in the Ella highlands", label: "HIGHLANDS", km: "KM 214" },
-  { src: "/experience/tropical.jpg", alt: "Tea terraces rolling through the hills near Nuwara Eliya", label: "TEA COUNTRY", km: "KM 268" },
-  { src: "/experience/city.jpg", alt: "Colombo skyline at night reflected in Beira Lake", label: "COLOMBO", km: "KM 412" },
-  { src: "/experience/highway.jpg", alt: "Rampart path along the Indian Ocean at Galle Fort", label: "GALLE", km: "KM 531" },
+  { src: "/experience/coast.jpg", alt: "Open south-coast beach near Galle, looking toward the lighthouse", label: "Coast", km: "KM 000" },
+  { src: "/experience/mountains.jpg", alt: "Train crossing the Nine Arch Bridge in the Ella highlands", label: "Highlands", km: "KM 214" },
+  { src: "/experience/tropical.jpg", alt: "Tea terraces rolling through the hills near Nuwara Eliya", label: "Tea country", km: "KM 268" },
+  { src: "/experience/city.jpg", alt: "Colombo skyline at night reflected in Beira Lake", label: "Colombo", km: "KM 412" },
+  { src: "/experience/highway.jpg", alt: "Rampart path along the Indian Ocean at Galle Fort", label: "Galle", km: "KM 531" },
 ];
 
 function Intro() {
   return (
     <>
       <p className="font-mono text-[11px] tracking-[0.32em] text-cyan">SRI LANKA</p>
-      <h2 className="mt-4 font-[family-name:var(--font-oswald)] text-[12vw] leading-[0.86] tracking-tight text-white sm:text-7xl lg:text-8xl">
-        ONE ISLAND.
+      <h2 className="mt-4 font-[family-name:var(--font-serif-display)] text-[14vw] leading-[0.9] tracking-tight text-ivory sm:text-7xl lg:text-8xl">
+        One island.
         <br />
-        ENDLESS ROADS.
+        <em className="text-cyan">Endless roads.</em>
       </h2>
       <p className="mt-5 max-w-lg text-sm text-mute">From city drives to unforgettable road trips.</p>
     </>
@@ -48,6 +48,7 @@ export function Experience() {
   const x = useTransform(p, [0.06, 0.96], [0, -distance]);
   const road = useTransform(p, [0, 1], ["0px", "-2400px"]);
   const fill = useTransform(p, [0, 1], [0, 1]);
+  const drift = useTransform(p, [0, 1], ["6%", "-6%"]);
 
   if (reduced) {
     return (
@@ -79,19 +80,21 @@ export function Experience() {
           {frames.map((f, i) => (
             <figure
               key={f.src}
-              className={`relative shrink-0 overflow-hidden ${i % 2 ? "h-[48svh] w-[72vw] sm:w-[40vw]" : "h-[62svh] w-[80vw] sm:w-[52vw]"}`}
+              className={`relative shrink-0 overflow-hidden rounded-[24px] ${i % 2 ? "h-[48svh] w-[72vw] sm:w-[40vw]" : "h-[62svh] w-[80vw] sm:w-[52vw]"}`}
             >
-              <Image
-                src={f.src}
-                alt={f.alt}
-                fill
-                sizes="(max-width: 640px) 80vw, 52vw"
-                className="object-cover"
-              />
+              <motion.div style={{ x: drift }} className="absolute inset-y-0 -inset-x-[10%]">
+                <Image
+                  src={f.src}
+                  alt={f.alt}
+                  fill
+                  sizes="(max-width: 640px) 90vw, 60vw"
+                  className="object-cover"
+                />
+              </motion.div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <figcaption className="absolute bottom-4 left-4 z-10">
                 <span className="block font-mono text-[10px] tracking-[0.28em] text-cyan">{f.km}</span>
-                <span className="mt-1 block font-[family-name:var(--font-oswald)] text-3xl tracking-tight text-white sm:text-4xl">
+                <span className="mt-1 block font-[family-name:var(--font-serif-display)] text-4xl italic tracking-tight text-ivory sm:text-6xl">
                   {f.label}
                 </span>
               </figcaption>

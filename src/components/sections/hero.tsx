@@ -1,24 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import {
-  motion,
-  useReducedMotion,
-  useTransform,
-  type MotionValue,
-} from "motion/react";
+import { motion, useReducedMotion, useTransform, type MotionValue } from "motion/react";
 import { useRef } from "react";
 import { usePinnedProgress } from "@/components/journey/use-pinned-progress";
-import { CabinFrame, DoorArt, SteeringWheel } from "@/components/journey/car-art";
 
-// The hero is a pinned scroll sequence: walk up to the car, the door swings
-// open, you slide into the driver's seat and pull away. Scroll drives every
-// frame, so the visitor controls the pace.
+// The hero is one pinned scroll sequence told in five beats:
+// the word "Drive" opens like a window, you walk up to the car, its doors
+// part, you settle into the driver's seat, and the road rushes in.
 
-const chapters = [
-  { n: "01", label: "APPROACH", range: [0, 0.22] },
-  { n: "02", label: "STEP IN", range: [0.22, 0.5] },
-  { n: "03", label: "DRIVE", range: [0.5, 1] },
+const beats = [
+  { n: "01", label: "Ignition", at: 0 },
+  { n: "02", label: "Approach", at: 0.18 },
+  { n: "03", label: "Step in", at: 0.36 },
+  { n: "04", label: "Take the wheel", at: 0.52 },
+  { n: "05", label: "Drive", at: 0.7 },
 ] as const;
 
 export function Hero() {
@@ -30,225 +26,227 @@ function JourneyHero() {
   const ref = useRef<HTMLElement>(null);
   const p = usePinnedProgress(ref);
 
-  // 01 — approach the car
-  const titleOpacity = useTransform(p, [0, 0.1], [1, 0]);
-  const titleY = useTransform(p, [0, 0.12], [0, -140]);
-  const titleScale = useTransform(p, [0, 0.12], [1, 1.12]);
-  const cueOpacity = useTransform(p, [0, 0.04], [1, 0]);
-  const exteriorScale = useTransform(p, [0, 0.26], [1, 2.4]);
-  const exteriorOpacity = useTransform(p, [0.2, 0.27], [1, 0]);
+  // 01 — the word is a window onto the road; scrolling dives through it.
+  const maskScale = useTransform(p, [0, 0.05, 0.12], [1, 3, 40]);
+  const maskOpacity = useTransform(p, [0.04, 0.1], [1, 0]);
+  const introOpacity = useTransform(p, [0, 0.04], [1, 0]);
 
-  // 02 — the door opens
-  const doorOpacity = useTransform(p, [0.17, 0.25, 0.5, 0.53], [0, 1, 1, 0]);
-  const doorScale = useTransform(p, [0.17, 0.3], [1.3, 1]);
-  const doorRotate = useTransform(p, [0.32, 0.5], [0, -100]);
-  const doorShade = useTransform(p, [0.32, 0.5], [0, 0.7]);
-  const stepInOpacity = useTransform(p, [0.24, 0.29, 0.38, 0.44], [0, 1, 1, 0]);
+  // 02 — approach: the road at dusk, then the car's flank coming closer.
+  const roadScale = useTransform(p, [0, 0.2], [1.25, 1]);
+  const roadOpacity = useTransform(p, [0.23, 0.27], [1, 0]);
+  const headlineOpacity = useTransform(p, [0.12, 0.15, 0.22, 0.25], [0, 1, 1, 0]);
+  const headlineY = useTransform(p, [0.12, 0.25], [60, -60]);
+  const carScale = useTransform(p, [0.23, 0.4], [1, 1.45]);
 
-  // 03 — inside, pulling away
-  const cabinOpacity = useTransform(p, [0.27, 0.3], [0, 1]);
-  const cabinScale = useTransform(p, [0.32, 0.56], [1.4, 1]);
-  const roadScale = useTransform(p, [0.45, 1], [1.08, 1.7]);
-  const roadY = useTransform(p, [0.45, 1], ["0%", "6%"]);
-  const wheelRotate = useTransform(p, [0.56, 0.68, 0.8, 0.92], [0, -14, 10, 0]);
-  const driveOpacity = useTransform(p, [0.55, 0.62, 0.86, 0.93], [0, 1, 1, 0]);
-  const driveY = useTransform(p, [0.55, 0.62], [40, 0]);
-  const speed = useTransform(p, [0.5, 0.94], [0, 120], { clamp: true });
+  // 03 — the doors part down the middle.
+  const leftDoor = useTransform(p, [0.38, 0.5], [0, -92]);
+  const rightDoor = useTransform(p, [0.38, 0.5], [0, 92]);
+  const doorsOpacity = useTransform(p, [0.47, 0.51], [1, 0]);
+  const stepInOpacity = useTransform(p, [0.3, 0.34, 0.42, 0.46], [0, 1, 1, 0]);
+
+  // 04 — the cabin: settle into the seat, then lean toward the windscreen.
+  const cabinScale = useTransform(p, [0.4, 0.56, 0.66, 0.74], [1.35, 1, 1, 2.6]);
+  const cabinOpacity = useTransform(p, [0.68, 0.74], [1, 0]);
+  const wheelOpacity = useTransform(p, [0.52, 0.56, 0.62, 0.66], [0, 1, 1, 0]);
+
+  // 05 — the open road.
+  const driveScale = useTransform(p, [0.68, 1], [1.5, 1.05]);
+  const streaks = useTransform(p, [0.7, 0.8, 0.95, 1], [0, 0.6, 0.6, 0]);
+  const driveTextOpacity = useTransform(p, [0.76, 0.81, 0.92, 0.96], [0, 1, 1, 0]);
+  const speed = useTransform(p, [0.7, 0.96], [0, 140]);
   const speedText = useTransform(speed, (v) => Math.round(v).toString().padStart(3, "0"));
-  const speedBar = useTransform(speed, [0, 120], [0, 1]);
-  const hudOpacity = useTransform(p, [0.48, 0.54], [0, 1]);
-  const exitOpacity = useTransform(p, [0.92, 1], [0, 1]);
+  const hudOpacity = useTransform(p, [0.7, 0.74, 0.95, 0.99], [0, 1, 1, 0]);
+  const exit = useTransform(p, [0.95, 1], [0, 1]);
 
   return (
-    <section
-      id="top"
-      ref={ref}
-      className="relative h-[560vh] bg-black"
-      aria-label="Car Dayz Lanka — drive beyond ordinary"
-    >
-      <div className="sticky top-0 h-[100svh] overflow-hidden [perspective:1800px]">
-        {/* Cabin sits underneath; the door swings away to reveal it */}
-        <motion.div style={{ opacity: cabinOpacity, scale: cabinScale }} className="absolute inset-0">
-          <motion.div style={{ scale: roadScale, y: roadY }} className="absolute inset-0">
-            <Image
-              src="/experience/highway.jpg"
-              alt=""
-              fill
-              sizes="100vw"
-              className="object-cover object-center brightness-[0.75] saturate-[0.85]"
-            />
-          </motion.div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40" />
-          <CabinFrame />
-          <motion.div
-            style={{ rotate: wheelRotate }}
-            className="absolute bottom-[-20vh] left-1/2 w-[92vw] sm:bottom-[-38vh] -translate-x-1/2 sm:left-[34%] sm:w-[58vw] lg:w-[46vw]"
-          >
-            <SteeringWheel className="h-auto w-full drop-shadow-[0_-20px_60px_rgba(0,0,0,0.8)]" />
-          </motion.div>
+    <section id="top" ref={ref} className="relative h-[800vh] bg-ink" aria-label="Car Dayz Lanka — drive beyond ordinary">
+      <div className="sticky top-0 h-[100svh] overflow-hidden [perspective:1600px]">
+        {/* 05 — the open road sits at the back of the stack */}
+        <motion.div style={{ scale: driveScale }} className="absolute inset-0">
+          <Image src="/brand/statement.jpg" alt="" fill sizes="100vw" className="object-cover brightness-[0.8]" />
+        </motion.div>
+        <motion.div style={{ opacity: streaks }} className="speed-streaks pointer-events-none absolute inset-0" />
 
-          <motion.div
-            style={{ opacity: hudOpacity }}
-            className="absolute bottom-[8vh] right-5 text-right sm:right-[10vw]"
-          >
-            <p className="font-mono text-[10px] tracking-[0.32em] text-white/55">KM/H</p>
-            <motion.p className="font-[family-name:var(--font-oswald)] text-6xl leading-none text-white tabular-nums sm:text-7xl">
-              {speedText}
-            </motion.p>
-            <div className="mt-3 ml-auto h-px w-32 bg-white/15">
-              <motion.div style={{ scaleX: speedBar }} className="h-px origin-left bg-cyan" />
-            </div>
-          </motion.div>
+        {/* 04 — the cabin */}
+        <motion.div style={{ scale: cabinScale, opacity: cabinOpacity }} className="absolute inset-0 origin-[55%_30%]">
+          <Image src="/fleet/sonet/03.jpg" alt="The driver's seat of a Kia Sonet" fill sizes="100vw" className="object-cover brightness-[0.85]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-ink/30" />
         </motion.div>
 
-        {/* Exterior: the car on the road, the camera walking toward it */}
-        <motion.div
-          style={{ scale: exteriorScale, opacity: exteriorOpacity }}
-          className="absolute inset-0 origin-[58%_62%]"
-        >
+        {/* 03 — the doors: two halves of the car photo, hinged at the outer edges */}
+        <motion.div style={{ opacity: doorsOpacity }} className="absolute inset-0 [transform-style:preserve-3d]">
+          <motion.div style={{ rotateY: leftDoor }} className="absolute inset-y-0 left-0 w-1/2 origin-left overflow-hidden">
+            <motion.div style={{ scale: carScale }} className="absolute inset-y-0 left-0 w-[200%] origin-[50%_55%]">
+              <Image src="/fleet/vezel/03.jpg" alt="" fill sizes="100vw" className="object-cover" />
+            </motion.div>
+            <div className="absolute inset-y-0 right-0 w-px bg-ink/70" />
+          </motion.div>
+          <motion.div style={{ rotateY: rightDoor }} className="absolute inset-y-0 right-0 w-1/2 origin-right overflow-hidden">
+            <motion.div style={{ scale: carScale }} className="absolute inset-y-0 right-0 w-[200%] origin-[50%_55%]">
+              <Image src="/fleet/vezel/03.jpg" alt="" fill sizes="100vw" className="object-cover" />
+            </motion.div>
+          </motion.div>
+          <div className="pointer-events-none absolute inset-0 bg-ink/30" />
+        </motion.div>
+
+        {/* 02 — the road at dusk, first seen through the word */}
+        <motion.div style={{ scale: roadScale, opacity: roadOpacity }} className="absolute inset-0">
           <Image
             src="/brand/hero.jpg"
-            alt="Cinematic vehicle on an open road at dusk"
+            alt="A car on an open road at dusk"
             fill
             priority
             sizes="100vw"
-            className="object-cover object-[center_40%] brightness-[0.55] contrast-110 saturate-[0.78]"
+            className="object-cover object-[center_40%] brightness-[0.7]"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/25 to-black/80" />
-          <div className="vignette absolute inset-0" />
+          <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-transparent to-ink/70" />
         </motion.div>
 
-        {/* The driver's door, hinged at the front edge */}
+        {/* 01 — an ink sheet with "Drive" punched out of it */}
+        <motion.div style={{ scale: maskScale, opacity: maskOpacity }} className="absolute inset-0 origin-[50%_52%]">
+          <svg className="h-full w-full" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1600 1000" aria-hidden>
+            <defs>
+              <mask id="drive-mask">
+                <rect x="-4000" y="-4000" width="9600" height="9000" fill="white" />
+                <text
+                  x="800"
+                  y="660"
+                  textAnchor="middle"
+                  fill="black"
+                  style={{ fontFamily: "var(--font-serif-display), serif", fontSize: 480, letterSpacing: -6 }}
+                >
+                  Drive
+                </text>
+              </mask>
+            </defs>
+            <rect x="-4000" y="-4000" width="9600" height="9000" fill="#0c0b0a" mask="url(#drive-mask)" />
+          </svg>
+        </motion.div>
+
+        <motion.div style={{ opacity: introOpacity }} className="pointer-events-none absolute inset-x-0 top-[17vh] text-center">
+          <p className="font-mono text-[11px] tracking-[0.4em] text-cyan">CAR DAYZ LANKA · CAR RENTAL</p>
+        </motion.div>
         <motion.div
-          style={{ opacity: doorOpacity, scale: doorScale, rotateY: doorRotate }}
-          className="absolute inset-0 origin-left [transform-style:preserve-3d]"
+          style={{ opacity: introOpacity }}
+          className="pointer-events-none absolute inset-x-0 bottom-[12vh] flex flex-col items-center gap-3 text-ivory/70"
         >
-          <DoorArt />
-          <motion.div style={{ opacity: doorShade }} className="absolute inset-0 bg-black" />
-        </motion.div>
-
-        {/* Copy */}
-        <motion.div
-          style={{ opacity: titleOpacity, y: titleY, scale: titleScale }}
-          className="absolute inset-0 flex flex-col justify-end px-5 pb-40 pt-28 sm:px-10 lg:px-16 lg:pb-44"
-        >
-          <p className="font-mono text-[11px] tracking-[0.36em] text-cyan">CAR RENTAL / SRI LANKA</p>
-          <h1 className="mt-5 font-[family-name:var(--font-oswald)] text-[16vw] leading-[0.8] tracking-tight text-white sm:text-[11vw] lg:text-[8.6vw]">
-            DRIVE
-            <br />
-            BEYOND
-            <br />
-            <span className="text-white/80">ORDINARY.</span>
-          </h1>
-          <p className="mt-8 max-w-sm text-sm leading-relaxed text-mute sm:text-base">
-            Your journey starts with the right car.
-          </p>
+          <span className="font-mono text-[10px] tracking-[0.4em]">SCROLL TO START THE ENGINE</span>
+          <span className="animate-scroll-dot h-10 w-px bg-cyan" />
         </motion.div>
 
         <motion.div
-          style={{ opacity: stepInOpacity }}
+          style={{ opacity: headlineOpacity, y: headlineY }}
           className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-6 text-center"
         >
-          <p className="font-mono text-[11px] tracking-[0.36em] text-cyan">02 / STEP IN</p>
-          <p className="mt-4 font-[family-name:var(--font-oswald)] text-[13vw] leading-[0.85] tracking-tight text-white sm:text-8xl">
-            THE KEYS
+          <h1 className="font-[family-name:var(--font-serif-display)] text-[17vw] leading-[0.85] tracking-tight text-ivory sm:text-[11vw]">
+            Drive beyond
             <br />
-            ARE YOURS.
-          </p>
+            <em className="text-cyan">ordinary.</em>
+          </h1>
+          <p className="mt-6 max-w-sm text-sm text-ivory/75 sm:text-base">Your journey starts with the right car.</p>
         </motion.div>
 
-        <motion.div
-          style={{ opacity: driveOpacity, y: driveY }}
-          className="pointer-events-none absolute inset-x-0 top-[16vh] flex flex-col items-center px-6 text-center"
-        >
-          <p className="font-mono text-[11px] tracking-[0.36em] text-cyan">03 / DRIVE</p>
-          <p className="mt-4 font-[family-name:var(--font-oswald)] text-[12vw] leading-[0.85] tracking-tight text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.6)] sm:text-8xl">
-            THE ISLAND
-            <br />
-            IS OPEN.
-          </p>
+        <Caption opacity={stepInOpacity} kicker="03 / STEP IN" line1="The keys" line2="are yours." />
+        <Caption opacity={wheelOpacity} kicker="04 / TAKE THE WHEEL" line1="Settle in." line2="The island awaits." />
+        <Caption opacity={driveTextOpacity} kicker="05 / DRIVE" line1="The road" line2="is yours." />
+
+        <motion.div style={{ opacity: hudOpacity }} className="pointer-events-none absolute bottom-[9vh] right-5 text-right sm:right-12">
+          <p className="font-mono text-[10px] tracking-[0.32em] text-ivory/60">KM / H</p>
+          <motion.p className="font-[family-name:var(--font-serif-display)] text-7xl leading-none text-ivory tabular-nums sm:text-8xl">
+            {speedText}
+          </motion.p>
         </motion.div>
 
-        <ChapterRail progress={p} />
-
-        <motion.a
-          href="#book"
-          style={{ opacity: cueOpacity }}
-          className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-white/70"
-          aria-label="Scroll to begin the journey"
-        >
-          <span className="font-mono text-[9px] tracking-[0.28em]">SCROLL TO DRIVE</span>
-          <span className="animate-scroll-dot h-8 w-px bg-cyan" />
-        </motion.a>
-
-        <motion.div style={{ opacity: exitOpacity }} className="pointer-events-none absolute inset-0 bg-[#050505]" />
+        <BeatRail progress={p} />
+        <motion.div style={{ opacity: exit }} className="pointer-events-none absolute inset-0 bg-ink" />
       </div>
     </section>
   );
 }
 
-function ChapterRail({ progress }: { progress: MotionValue<number> }) {
-  const fill = useTransform(progress, [0, 0.94], [0, 1]);
+function Caption({
+  opacity,
+  kicker,
+  line1,
+  line2,
+}: {
+  opacity: MotionValue<number>;
+  kicker: string;
+  line1: string;
+  line2: string;
+}) {
+  const y = useTransform(opacity, [0, 1], [30, 0]);
   return (
-    <div className="pointer-events-none absolute bottom-8 left-5 hidden w-[min(360px,40vw)] sm:left-10 lg:block">
-      <div className="flex justify-between">
-        {chapters.map((c) => (
-          <ChapterLabel key={c.n} progress={progress} chapter={c} />
+    <motion.div
+      style={{ opacity, y }}
+      className="pointer-events-none absolute inset-x-0 top-[22vh] flex flex-col items-center px-6 text-center"
+    >
+      <p className="font-mono text-[11px] tracking-[0.4em] text-cyan">{kicker}</p>
+      <p className="mt-4 font-[family-name:var(--font-serif-display)] text-[14vw] leading-[0.9] tracking-tight text-ivory drop-shadow-[0_6px_40px_rgba(0,0,0,0.6)] sm:text-8xl lg:text-9xl">
+        {line1}
+        <br />
+        <em>{line2}</em>
+      </p>
+    </motion.div>
+  );
+}
+
+function BeatRail({ progress }: { progress: MotionValue<number> }) {
+  const fill = useTransform(progress, [0, 0.96], [0, 1]);
+  return (
+    <div className="pointer-events-none absolute left-5 top-1/2 hidden -translate-y-1/2 sm:left-10 lg:flex lg:gap-5">
+      <div className="relative w-px bg-ivory/15">
+        <motion.div style={{ scaleY: fill }} className="absolute inset-0 origin-top bg-cyan" />
+      </div>
+      <ol className="flex flex-col gap-7">
+        {beats.map((b, i) => (
+          <Beat key={b.n} progress={progress} beat={b} next={beats[i + 1]?.at ?? 1} />
         ))}
-      </div>
-      <div className="mt-3 h-px w-full bg-white/15">
-        <motion.div style={{ scaleX: fill }} className="h-px origin-left bg-cyan" />
-      </div>
+      </ol>
     </div>
   );
 }
 
-function ChapterLabel({
+function Beat({
   progress,
-  chapter,
+  beat,
+  next,
 }: {
   progress: MotionValue<number>;
-  chapter: (typeof chapters)[number];
+  beat: (typeof beats)[number];
+  next: number;
 }) {
-  const [start, end] = chapter.range;
-  // Keyframe offsets must stay inside 0–1 or scroll-linked animation throws.
+  // Offsets must stay inside 0–1 and keep increasing.
   const opacity = useTransform(
     progress,
-    start === 0 ? [0, end - 0.02, end] : [start - 0.02, start, end - 0.02, end],
-    start === 0 ? [1, 1, 0.35] : [0.35, 1, 1, 0.35],
+    beat.at === 0 ? [0, next - 0.02, next] : [beat.at - 0.02, beat.at, next - 0.02, next],
+    beat.at === 0 ? [1, 1, 0.3] : [0.3, 1, 1, 0.3],
   );
   return (
-    <motion.span style={{ opacity }} className="font-mono text-[10px] tracking-[0.28em] text-white">
-      <span className="text-cyan">{chapter.n}</span> {chapter.label}
-    </motion.span>
+    <motion.li style={{ opacity }} className="font-mono text-[10px] tracking-[0.3em] text-ivory">
+      <span className="text-cyan">{beat.n}</span> {beat.label.toUpperCase()}
+    </motion.li>
   );
 }
 
 function StaticHero() {
   return (
-    <section id="top" className="relative isolate min-h-[100svh] overflow-hidden bg-black">
+    <section id="top" className="relative isolate min-h-[100svh] overflow-hidden bg-ink">
       <Image
         src="/brand/hero.jpg"
-        alt="Cinematic vehicle on an open road at dusk"
+        alt="A car on an open road at dusk"
         fill
         priority
         sizes="100vw"
-        className="object-cover object-[center_40%] brightness-[0.55] contrast-110 saturate-[0.78]"
+        className="object-cover object-[center_40%] brightness-[0.6]"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/25 to-[#050505]" />
-      <div className="vignette absolute inset-0" />
-      <div className="relative flex min-h-[100svh] flex-col justify-end px-5 pb-40 pt-28 sm:px-10 lg:px-16 lg:pb-44">
-        <p className="font-mono text-[11px] tracking-[0.36em] text-cyan">CAR RENTAL / SRI LANKA</p>
-        <h1 className="mt-5 font-[family-name:var(--font-oswald)] text-[16vw] leading-[0.8] tracking-tight text-white sm:text-[11vw] lg:text-[8.6vw]">
-          DRIVE
+      <div className="relative flex min-h-[100svh] flex-col items-center justify-center px-6 text-center">
+        <h1 className="font-[family-name:var(--font-serif-display)] text-[17vw] leading-[0.85] tracking-tight text-ivory sm:text-[11vw]">
+          Drive beyond
           <br />
-          BEYOND
-          <br />
-          <span className="text-white/80">ORDINARY.</span>
+          <em className="text-cyan">ordinary.</em>
         </h1>
-        <p className="mt-8 max-w-sm text-sm leading-relaxed text-mute sm:text-base">
-          Your journey starts with the right car.
-        </p>
+        <p className="mt-6 max-w-sm text-sm text-ivory/75 sm:text-base">Your journey starts with the right car.</p>
       </div>
     </section>
   );

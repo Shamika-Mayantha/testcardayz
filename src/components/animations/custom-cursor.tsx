@@ -87,15 +87,15 @@ export function CustomCursor() {
     >
       <div
         ref={dot}
-        className="fixed top-0 left-0 size-1.5 rounded-full bg-[#e10600] shadow-[0_0_12px_#e10600]"
+        className="fixed top-0 left-0 size-1.5 rounded-full bg-[#e8a33d] shadow-[0_0_12px_#e8a33d]"
       />
       <div
         ref={ring}
-        className="fixed top-0 left-0 size-11 rounded-full border border-[#e10600]/70"
+        className="fixed top-0 left-0 size-11 rounded-full border border-[#e8a33d]/70"
       />
       <div
         ref={label}
-        className="fixed top-0 left-0 flex size-11 items-center justify-center font-display text-[9px] tracking-[0.22em] text-[#e10600]"
+        className="fixed top-0 left-0 flex size-11 items-center justify-center font-display text-[9px] tracking-[0.22em] text-[#e8a33d]"
       >
         {mode === "default" ? "" : mode.toUpperCase()}
       </div>
