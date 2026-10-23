@@ -71,7 +71,7 @@ export function BookingSearch() {
             <p className="font-mono text-[10px] tracking-[0.28em] text-cyan">
               AVAILABILITY / WHATSAPP
             </p>
-            <h2 className="mt-1 font-[family-name:var(--font-oswald)] text-xl tracking-wide text-white sm:text-2xl">
+            <h2 className="mt-1 font-[family-name:var(--font-serif-display)] text-xl tracking-wide text-white sm:text-2xl">
               PLAN THE DRIVE
             </h2>
           </div>
@@ -139,7 +139,7 @@ export function BookingSearch() {
               id="check-availability"
               data-cursor="OPEN"
               onClick={checkAvailability}
-              className="w-full border border-cyan bg-cyan py-3.5 font-mono text-[11px] tracking-[0.22em] text-white transition hover:bg-transparent hover:text-cyan"
+              className="w-full border border-cyan bg-cyan py-3.5 font-mono text-[11px] tracking-[0.22em] text-ink transition hover:bg-transparent hover:text-cyan"
             >
               SEND ON WHATSAPP →
             </button>

@@ -30,7 +30,7 @@ export function Navbar() {
         className={cn(
           "relative z-50 mx-auto flex max-w-[1440px] items-center justify-between px-4 transition-all duration-500 sm:px-8",
           scrolled
-            ? "rounded-none border-b border-white/10 bg-[#050505]/75 py-3 backdrop-blur-xl"
+            ? "rounded-none border-b border-white/10 bg-[#0c0b0a]/75 py-3 backdrop-blur-xl"
             : "bg-transparent"
         )}
       >
@@ -49,7 +49,7 @@ export function Navbar() {
             <a
               key={item.href}
               href={item.href}
-              className="label-tech transition hover:text-[#e10600]"
+              className="label-tech transition hover:text-[#e8a33d]"
             >
               {item.label}
             </a>
@@ -62,7 +62,7 @@ export function Navbar() {
               target="_blank"
               rel="noreferrer"
               data-cursor="book"
-              className="hidden border border-[#e10600]/50 px-4 py-2 font-display text-xs tracking-[0.22em] text-[#e10600] transition hover:bg-[#e10600] hover:text-white sm:inline-flex"
+              className="hidden border border-[#e8a33d]/50 px-4 py-2 font-display text-xs tracking-[0.22em] text-[#e8a33d] transition hover:bg-[#e8a33d] hover:text-ink sm:inline-flex"
             >
               BOOK ON WHATSAPP →
             </a>
@@ -84,7 +84,7 @@ export function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 flex flex-col justify-center bg-[#050505] px-8 lg:hidden"
+            className="fixed inset-0 z-40 flex flex-col justify-center bg-[#0c0b0a] px-8 lg:hidden"
           >
             <nav className="flex flex-col gap-6">
               {nav.map((item, i) => (
@@ -105,7 +105,7 @@ export function Navbar() {
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => setOpen(false)}
-                className="mt-4 font-display text-xl tracking-[0.2em] text-[#e10600]"
+                className="mt-4 font-display text-xl tracking-[0.2em] text-[#e8a33d]"
               >
                 BOOK ON WHATSAPP →
               </a>

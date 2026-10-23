@@ -103,7 +103,7 @@ export function VehicleSlideshow({
               const tick = (
                 <span
                   className={`block h-px transition-all duration-500 ${
-                    active ? "w-7 bg-[#e10600]" : "w-3 bg-white/35"
+                    active ? "w-7 bg-[#e8a33d]" : "w-3 bg-white/35"
                   }`}
                 />
               );
