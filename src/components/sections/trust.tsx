@@ -20,24 +20,24 @@ export function Trust() {
   const marquee = `${business.reviews} REVIEWS · ${business.rating.toFixed(1)} ★ ON GOOGLE · `;
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-ivory py-28 text-center text-ink">
-      <div className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 whitespace-nowrap font-[family-name:var(--font-serif-display)] text-[18vw] italic leading-none text-ink/[0.05]">
+    <section ref={ref} className="relative overflow-hidden bg-[#0b0b0d] py-28 text-center text-ivory">
+      <div className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 whitespace-nowrap font-[family-name:var(--font-display-face)] text-[18vw] leading-none text-ivory/[0.05]">
         <div className="animate-marquee inline-block">
           {marquee.repeat(4)}
         </div>
       </div>
-      <p className="relative font-mono text-[11px] tracking-[0.4em] text-ink/50">PUBLICLY LISTED RATING</p>
-      <p className="relative mt-6 font-[family-name:var(--font-serif-display)] text-[30vw] leading-none tracking-tight sm:text-[14rem]">
+      <p className="relative font-mono text-[11px] tracking-[0.4em] text-ivory/50">PUBLICLY LISTED RATING</p>
+      <p className="relative mt-6 font-[family-name:var(--font-display-face)] text-[30vw] leading-none tracking-tight sm:text-[14rem]">
         <motion.span>{text}</motion.span>
-        <span className="ml-2 align-top text-[10vw] text-[#b9772a] sm:text-7xl">★</span>
+        <span className="ml-2 align-top text-[10vw] text-[#c21f30] sm:text-7xl">★</span>
       </p>
-      <p className="relative mt-4 font-mono text-sm tracking-[0.3em] text-ink/60">{business.reviews} REVIEWS</p>
+      <p className="relative mt-4 font-mono text-sm tracking-[0.3em] text-ivory/60">{business.reviews} REVIEWS</p>
       <a
         href={business.reviewsUrl}
         target="_blank"
         rel="noreferrer"
         data-cursor="OPEN"
-        className="relative mt-10 inline-flex rounded-full bg-ink px-8 py-4 font-mono text-[11px] tracking-[0.24em] text-ivory transition hover:bg-[#b9772a]"
+        className="relative mt-10 inline-flex rounded-full border border-ivory/25 px-8 py-4 font-mono text-[11px] tracking-[0.24em] text-ivory transition hover:border-[#c21f30] hover:bg-[#c21f30]"
       >
         GOOGLE REVIEWS →
       </a>

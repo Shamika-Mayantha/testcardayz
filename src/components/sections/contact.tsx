@@ -7,7 +7,7 @@ export function Contact() {
       <div className="mx-auto grid w-[min(1180px,100%)] gap-10 lg:grid-cols-2">
         <div>
           <p className="font-mono text-[11px] tracking-[0.32em] text-cyan">LOCATION</p>
-          <h2 className="mt-4 font-[family-name:var(--font-serif-display)] text-6xl tracking-tight text-white sm:text-8xl">
+          <h2 className="mt-4 font-[family-name:var(--font-display-face)] text-6xl tracking-tight text-white sm:text-8xl">
             FIND US.
           </h2>
           <address className="mt-8 not-italic text-sm leading-relaxed text-mute">
@@ -31,7 +31,7 @@ export function Contact() {
               target="_blank"
               rel="noreferrer"
               data-cursor="OPEN"
-              className="border border-cyan bg-cyan px-6 py-3 font-mono text-[11px] tracking-[0.22em] text-ink hover:bg-transparent hover:text-cyan"
+              className="border border-cyan bg-cyan px-6 py-3 font-mono text-[11px] tracking-[0.22em] text-ivory hover:bg-transparent hover:text-cyan"
             >
               WHATSAPP →
             </a>
@@ -60,7 +60,7 @@ export function Contact() {
           rel="noreferrer"
           data-cursor="OPEN"
           aria-label="Open directions to CAR DAYZ LANKA in Battaramulla"
-          className="group relative block min-h-[360px] overflow-hidden border border-white/10 bg-[#12100e]"
+          className="group relative block min-h-[360px] overflow-hidden border border-white/10 bg-[#0d0d0f]"
         >
           <Image
             src="/brand/location.png"
@@ -73,7 +73,7 @@ export function Contact() {
             <p className="font-mono text-[10px] tracking-[0.24em] text-cyan">
               PELAWATTA · BATTARAMULLA
             </p>
-            <p className="mt-2 font-[family-name:var(--font-serif-display)] text-2xl text-white">
+            <p className="mt-2 font-[family-name:var(--font-display-face)] text-2xl text-white">
               GET DIRECTIONS →
             </p>
           </div>

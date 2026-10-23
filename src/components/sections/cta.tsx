@@ -11,7 +11,7 @@ function CtaContent() {
   return (
     <>
       <p className="font-mono text-[11px] tracking-[0.4em] text-cyan">NEXT STEP</p>
-      <h2 className="mt-4 max-w-5xl font-[family-name:var(--font-serif-display)] text-[17vw] leading-[0.86] tracking-tight text-ivory sm:text-8xl lg:text-[10rem]">
+      <h2 className="mt-4 max-w-5xl font-[family-name:var(--font-display-face)] text-[17vw] leading-[0.86] tracking-tight text-ivory sm:text-8xl lg:text-[10rem]">
         Your next journey
         <br />
         <em className="text-cyan">starts here.</em>
@@ -23,7 +23,7 @@ function CtaContent() {
             target="_blank"
             rel="noreferrer"
             data-cursor="BOOK"
-            className="inline-flex rounded-full bg-cyan px-8 py-4 font-mono text-[11px] tracking-[0.24em] text-ink transition hover:bg-ivory"
+            className="inline-flex rounded-full bg-cyan px-8 py-4 font-mono text-[11px] tracking-[0.24em] text-ivory transition hover:bg-[#0b0b0d]"
           >
             BOOK ON WHATSAPP →
           </a>
@@ -94,7 +94,7 @@ export function Cta() {
           className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-6 text-center"
         >
           <p className="font-mono text-[11px] tracking-[0.4em] text-cyan">ARRIVAL</p>
-          <p className="mt-4 font-[family-name:var(--font-serif-display)] text-[16vw] leading-[0.88] tracking-tight text-ivory drop-shadow-[0_6px_40px_rgba(0,0,0,0.6)] sm:text-9xl">
+          <p className="mt-4 font-[family-name:var(--font-display-face)] text-[16vw] leading-[0.88] tracking-tight text-ivory drop-shadow-[0_6px_40px_rgba(0,0,0,0.6)] sm:text-9xl">
             You&rsquo;ve <em>arrived.</em>
           </p>
         </motion.div>

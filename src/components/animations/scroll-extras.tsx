@@ -35,7 +35,7 @@ export function RoadMarquee() {
     <div className="overflow-hidden border-y border-ivory/10 bg-ink py-6" aria-hidden>
       <motion.div
         style={{ x, skewX: skew }}
-        className="whitespace-nowrap font-[family-name:var(--font-serif-display)] text-6xl italic text-ivory/85 sm:text-8xl"
+        className="whitespace-nowrap font-[family-name:var(--font-display-face)] text-6xl text-ivory/85 sm:text-8xl"
       >
         {row}
         {row}

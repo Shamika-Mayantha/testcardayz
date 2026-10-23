@@ -10,17 +10,17 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-serif-display);
-  --font-display: var(--font-serif-display);
-  --color-ice: #e8a33d;
-  --color-cyan: #e8a33d;
-  --color-brand: #e8a33d;
+  --font-heading: var(--font-display-face);
+  --font-display: var(--font-display-face);
+  --color-ice: #c21f30;
+  --color-cyan: #c21f30;
+  --color-brand: #c21f30;
   --color-steel: #c8c8c8;
-  --color-mute: #a39b8f;
-  --color-void: #0c0b0a;
-  --color-ink: #0c0b0a;
-  --color-ivory: #f1ece2;
-  --color-stone: #a39b8f;
+  --color-mute: #8b8b93;
+  --color-void: #050506;
+  --color-ink: #050506;
+  --color-ivory: #ecebe8;
+  --color-stone: #8b8b93;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -61,38 +61,38 @@
 
 :root,
 .dark {
-  --background: #0c0b0a;
+  --background: #050506;
   --foreground: #ffffff;
   --card: #0d0d0d;
   --card-foreground: #ffffff;
   --popover: #0d0d0d;
   --popover-foreground: #ffffff;
-  --primary: #e8a33d;
+  --primary: #c21f30;
   --primary-foreground: #ffffff;
   --secondary: #141414;
   --secondary-foreground: #ffffff;
   --muted: #141414;
-  --muted-foreground: #a39b8f;
-  --accent: #e8a33d;
+  --muted-foreground: #8b8b93;
+  --accent: #c21f30;
   --accent-foreground: #ffffff;
   --destructive: oklch(0.65 0.22 25);
-  --border: rgb(232 163 61 / 22%);
-  --input: rgb(232 163 61 / 18%);
-  --ring: rgb(232 163 61 / 50%);
-  --chart-1: #e8a33d;
+  --border: rgb(194 31 48 / 22%);
+  --input: rgb(194 31 48 / 18%);
+  --ring: rgb(194 31 48 / 50%);
+  --chart-1: #c21f30;
   --chart-2: #c8c8c8;
-  --chart-3: #a39b8f;
+  --chart-3: #8b8b93;
   --chart-4: #3a3a3a;
   --chart-5: #1a1a1a;
   --radius: 0.4rem;
-  --sidebar: #12100e;
+  --sidebar: #0d0d0f;
   --sidebar-foreground: #ffffff;
-  --sidebar-primary: #e8a33d;
+  --sidebar-primary: #c21f30;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #141414;
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: rgb(232 163 61 / 18%);
-  --sidebar-ring: rgb(232 163 61 / 45%);
+  --sidebar-border: rgb(194 31 48 / 18%);
+  --sidebar-ring: rgb(194 31 48 / 45%);
 }
 
 @layer base {
@@ -103,7 +103,7 @@
   html {
     @apply font-sans scroll-smooth;
     color-scheme: dark;
-    background: #0c0b0a;
+    background: #050506;
   }
 
   body {
@@ -111,7 +111,7 @@
   }
 
   ::selection {
-    background: rgb(232 163 61 / 40%);
+    background: rgb(194 31 48 / 40%);
     color: #fff;
   }
 
@@ -131,7 +131,7 @@
     letter-spacing: 0.28em;
     text-transform: uppercase;
     font-size: 10px;
-    color: #a39b8f;
+    color: #8b8b93;
   }
 
   .grain {
@@ -149,7 +149,7 @@
   .glass-panel {
     background: rgb(8 8 8 / 72%);
     backdrop-filter: blur(22px);
-    border: 1px solid rgb(232 163 61 / 22%);
+    border: 1px solid rgb(194 31 48 / 22%);
     box-shadow: 0 0 0 1px rgb(255 255 255 / 3%), 0 20px 60px rgb(0 0 0 / 45%);
   }
 
@@ -166,20 +166,20 @@
 
   .hairline {
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgb(232 163 61 / 70%), transparent);
+    background: linear-gradient(90deg, transparent, rgb(194 31 48 / 70%), transparent);
   }
 
   .glass {
     background: rgb(8 8 8 / 78%);
     backdrop-filter: blur(22px);
-    border: 1px solid rgb(232 163 61 / 22%);
+    border: 1px solid rgb(194 31 48 / 22%);
     box-shadow: 0 0 0 1px rgb(255 255 255 / 3%), 0 24px 70px rgb(0 0 0 / 45%);
   }
 
   .hud-input {
     width: 100%;
     background: rgb(0 0 0 / 45%);
-    border: 1px solid rgb(232 163 61 / 28%);
+    border: 1px solid rgb(194 31 48 / 28%);
     color: #fff;
     padding: 0.85rem 0.9rem;
     font-family: var(--font-geist-mono), ui-monospace, monospace;
@@ -192,10 +192,10 @@
 
   .hud-input:focus,
   .hud-input:focus-visible {
-    border-color: #e8a33d;
+    border-color: #c21f30;
     box-shadow:
-      0 0 0 1px rgb(232 163 61 / 45%),
-      0 0 28px rgb(232 163 61 / 18%);
+      0 0 0 1px rgb(194 31 48 / 45%),
+      0 0 28px rgb(194 31 48 / 18%);
   }
 }
 
@@ -317,4 +317,14 @@
   .animate-marquee {
     animation: none;
   }
+}
+
+/* Display type: light, tight grotesk. Emphasis is colour, never slant. */
+em {
+  font-style: normal;
+}
+
+[class*="--font-display-face"] {
+  font-weight: 300;
+  letter-spacing: -0.035em;
 }

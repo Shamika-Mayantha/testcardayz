@@ -17,7 +17,7 @@ function Intro() {
   return (
     <>
       <p className="font-mono text-[11px] tracking-[0.32em] text-cyan">SRI LANKA</p>
-      <h2 className="mt-4 font-[family-name:var(--font-serif-display)] text-[14vw] leading-[0.9] tracking-tight text-ivory sm:text-7xl lg:text-8xl">
+      <h2 className="mt-4 font-[family-name:var(--font-display-face)] text-[14vw] leading-[0.9] tracking-tight text-ivory sm:text-7xl lg:text-8xl">
         One island.
         <br />
         <em className="text-cyan">Endless roads.</em>
@@ -94,7 +94,7 @@ export function Experience() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <figcaption className="absolute bottom-4 left-4 z-10">
                 <span className="block font-mono text-[10px] tracking-[0.28em] text-cyan">{f.km}</span>
-                <span className="mt-1 block font-[family-name:var(--font-serif-display)] text-4xl italic tracking-tight text-ivory sm:text-6xl">
+                <span className="mt-1 block font-[family-name:var(--font-display-face)] text-4xl tracking-tight text-ivory sm:text-6xl">
                   {f.label}
                 </span>
               </figcaption>

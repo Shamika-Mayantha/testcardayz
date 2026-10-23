@@ -1,12 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Geist_Mono, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import { business } from "@/data/business";
 import { JsonLd } from "@/components/json-ld";
 
-const geistSans = Geist({
+const interTight = Inter_Tight({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
 });
 
 const geistMono = Geist_Mono({
@@ -14,11 +15,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const serif = Instrument_Serif({
-  variable: "--font-serif-display",
+const display = Inter_Tight({
+  variable: "--font-display-face",
   subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
+  weight: ["200", "300", "400"],
 });
 
 export const metadata: Metadata = {
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0c0b0a",
+  themeColor: "#050506",
   width: "device-width",
   initialScale: 1,
 };
@@ -51,9 +51,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`dark ${geistSans.variable} ${geistMono.variable} ${serif.variable} h-full antialiased`}
+      className={`dark ${interTight.variable} ${geistMono.variable} ${display.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col overflow-x-hidden bg-[#0c0b0a] text-white">
+      <body className="min-h-full flex flex-col overflow-x-hidden bg-[#050506] text-white">
         <JsonLd />
         {children}
       </body>

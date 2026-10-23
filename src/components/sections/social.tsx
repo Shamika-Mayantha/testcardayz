@@ -6,7 +6,7 @@ export function Social() {
       <div className="mx-auto flex w-[min(1180px,100%)] flex-col items-start justify-between gap-8 border-t border-white/10 pt-16 sm:flex-row sm:items-end">
         <div>
           <p className="font-mono text-[11px] tracking-[0.32em] text-cyan">SOCIAL</p>
-          <h2 className="mt-3 font-[family-name:var(--font-serif-display)] text-4xl tracking-tight text-white sm:text-6xl">
+          <h2 className="mt-3 font-[family-name:var(--font-display-face)] text-4xl tracking-tight text-white sm:text-6xl">
             FOLLOW THE JOURNEY
           </h2>
         </div>

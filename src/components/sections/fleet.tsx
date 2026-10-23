@@ -33,7 +33,7 @@ export function Fleet() {
         <p className="font-mono text-[11px] tracking-[0.32em] text-cyan">
           FLEET / AVAILABLE NOW
         </p>
-        <h2 className="mt-3 font-[family-name:var(--font-serif-display)] text-[12vw] leading-[0.86] tracking-tight text-white sm:text-7xl lg:text-8xl">
+        <h2 className="mt-3 font-[family-name:var(--font-display-face)] text-[12vw] leading-[0.86] tracking-tight text-white sm:text-7xl lg:text-8xl">
           CHOOSE
           <br />
           YOUR RIDE.
@@ -53,7 +53,7 @@ export function Fleet() {
               onClick={() => setFilter(f.id)}
               className={`border px-3 py-2 font-mono text-[10px] tracking-[0.2em] transition ${
                 filter === f.id
-                  ? "border-cyan bg-cyan text-ink"
+                  ? "border-cyan bg-cyan text-ivory"
                   : "border-white/15 text-mute hover:border-white/40 hover:text-white"
               }`}
             >
@@ -123,7 +123,7 @@ function VehicleCard({
           <p className="font-mono text-[10px] tracking-[0.22em] text-cyan">
             {vehicle.year} / {vehicle.categoryLabel.toUpperCase()}
           </p>
-          <h3 className="font-[family-name:var(--font-serif-display)] text-3xl tracking-wide text-white sm:text-4xl">
+          <h3 className="font-[family-name:var(--font-display-face)] text-3xl tracking-wide text-white sm:text-4xl">
             {vehicle.name}
           </h3>
           <p className="line-clamp-2 text-sm leading-relaxed text-mute">{vehicle.blurb}</p>
@@ -201,7 +201,7 @@ function VehicleModal({
           <p className="font-mono text-[11px] tracking-[0.28em] text-cyan">
             {vehicle.code} / {vehicle.year}
           </p>
-          <h2 className="mt-3 font-[family-name:var(--font-serif-display)] text-5xl tracking-wide text-white sm:text-6xl">
+          <h2 className="mt-3 font-[family-name:var(--font-display-face)] text-5xl tracking-wide text-white sm:text-6xl">
             {vehicle.name}
           </h2>
           <p className="mt-3 font-mono text-[11px] tracking-[0.2em] text-mute">
@@ -232,7 +232,7 @@ function VehicleModal({
             rel="noreferrer"
             data-cursor="BOOK"
             onClick={onClose}
-            className="mt-10 inline-flex w-fit border border-cyan bg-cyan px-8 py-4 font-mono text-[11px] tracking-[0.24em] text-ink hover:bg-transparent hover:text-cyan"
+            className="mt-10 inline-flex w-fit border border-cyan bg-cyan px-8 py-4 font-mono text-[11px] tracking-[0.24em] text-ivory hover:bg-transparent hover:text-cyan"
           >
             REQUEST ON WHATSAPP →
           </a>

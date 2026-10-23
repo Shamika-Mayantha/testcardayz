@@ -37,7 +37,7 @@ export function Why() {
     <section id="about" className="relative scroll-mt-24 bg-ink px-4 pb-[10vh] pt-28 lg:pt-36">
       <div className="mx-auto w-[min(1240px,100%)]">
         <p className="font-mono text-[11px] tracking-[0.4em] text-cyan">WHY CAR DAYZ LANKA</p>
-        <h2 className="mt-4 max-w-3xl font-[family-name:var(--font-serif-display)] text-6xl leading-[0.92] tracking-tight text-ivory sm:text-8xl">
+        <h2 className="mt-4 max-w-3xl font-[family-name:var(--font-display-face)] text-6xl leading-[0.92] tracking-tight text-ivory sm:text-8xl">
           Built for the <em className="text-cyan">road ahead.</em>
         </h2>
         <div className="mt-16">
@@ -69,12 +69,12 @@ function Card({
     <div ref={ref} className="sticky h-[78svh]" style={{ top: `calc(12vh + ${index * 22}px)` }}>
       <motion.article
         style={{ scale }}
-        className="relative grid h-[68svh] origin-top overflow-hidden rounded-[28px] border border-ivory/10 bg-[#171513] lg:grid-cols-[1fr_1.1fr]"
+        className="relative grid h-[68svh] origin-top overflow-hidden rounded-[28px] border border-ivory/10 bg-[#111114] lg:grid-cols-[1fr_1.1fr]"
       >
         <div className="relative z-10 flex flex-col justify-between p-8 sm:p-12">
           <p className="font-mono text-[11px] tracking-[0.32em] text-cyan">{reason.n} / 04</p>
           <div>
-            <h3 className="font-[family-name:var(--font-serif-display)] text-6xl leading-none tracking-tight text-ivory sm:text-8xl">
+            <h3 className="font-[family-name:var(--font-display-face)] text-6xl leading-none tracking-tight text-ivory sm:text-8xl">
               {reason.title}
             </h3>
             <p className="mt-5 max-w-sm text-base leading-relaxed text-stone">{reason.copy}</p>
@@ -82,7 +82,7 @@ function Card({
         </div>
         <div className="absolute inset-0 lg:relative">
           <Image src={reason.image} alt="" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#171513] via-[#171513]/70 to-transparent lg:via-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#111114] via-[#111114]/70 to-transparent lg:via-transparent" />
         </div>
         <motion.div style={{ opacity: dim }} className="pointer-events-none absolute inset-0 bg-ink" />
       </motion.article>
